@@ -1,18 +1,17 @@
+// Récupération des projets du site depuis l'API
+
+const works = await fetch("http://localhost:5678/api/works").then(works => works.json())
+const categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json())
 
 
-async function showWorks() {
-
-    // Récupération des projets du site via l'API
-    const works = await fetch("http://localhost:5678/api/works").then(works => works.json())
-
-    
+function showWorks(works) {    
     // Effacer l'ancienne gallerie
     const galleryContent = document.querySelector('.gallery')
     galleryContent.innerHTML = ""
 
     // Affichage de la gallerie 
     for (let i=0; i < works.length; i++) {
-        // Reconstruction les différentes balises
+        // Reconstruction des balises
         const figureTag = document.createElement('figure')
         const imageElement = document.createElement('img')
         imageElement.src = works[i].imageUrl // ajout de l'url de l'image
@@ -27,4 +26,8 @@ async function showWorks() {
     }
 }
 
-showWorks()
+//afficher les boutons de categorie
+
+
+
+showWorks(works)
