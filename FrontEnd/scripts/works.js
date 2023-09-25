@@ -2,18 +2,9 @@
 const works = await fetch("http://localhost:5678/api/works").then(works => works.json())
 const categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json())
 
-const worksSet = new Set()
-const categoriesSet = new Set()
-worksSet.add (works)
-categoriesSet.add(categoriesSet)
+const categoriesSet = new Set(categories) // Set pour éviter les doublons
 
-for (let item of worksSet) {
-    for (let object of item) {
-    console.log (object.title)}
-}
-
-let worksFiltered = works // Liste des projets après filtres, complète par défaut
-
+let worksFiltered = works // Liste des projets filtrée, ici : liste complète par défaut
 
 function showWorks(worksFiltered) {    
     // Effacer l'ancienne gallerie
@@ -48,22 +39,23 @@ buttonCatTous.classList.add('button-categorie')
 listeButton.appendChild(buttonCatTous)
 filtresGallery.appendChild(listeButton)
     // Autres bouton categories
-for (let i=0; i <categories.length; i++) {
+// for (let i=0; i <categoriesSet.length; i++) {
+for (let item of categoriesSet) {
     const buttonCat = document.createElement('button')
     buttonCat.classList.add('button-categorie')
-    buttonCat.dataset.id = i+1
-    buttonCat.innerText = categories[i].name
+    buttonCat.dataset.id = item.id
+    buttonCat.innerText = item.name
     listeButton.appendChild(buttonCat) 
     filtresGallery.appendChild(listeButton)
 }
 }
 
-// function filterByCategorie (worksSet, categoriesSet) {
+// function filterByCategorie (worksSet, categoriesSetSet) {
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
     filterCategoryButton[i].addEventListener('click', (event) => {
         if (parseInt(event.target.dataset.id) !== 0) {
-            worksFiltered = works.filter((item) => item.categoryId === parseInt(event.target.dataset.id))
+            worksFiltered = works.filter((item) => item.categoryId === parseInt(event.target.dataset.id)) // Methode Avec filter() //
             showWorks(worksFiltered)
         } else {
             showWorks(works)
