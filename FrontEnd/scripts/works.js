@@ -37,8 +37,7 @@ function showWorks(worksFiltered) {
     }
 }
 
-{
-//afficher les boutons de categorie
+{ //afficher les boutons de categorie
 const filtresGallery = document.querySelector(".filtres ul")
 const listeButton = document.createElement('li')
     // Bouton catégorie "Tous"
@@ -63,7 +62,6 @@ for (let i=0; i <categories.length; i++) {
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
     filterCategoryButton[i].addEventListener('click', (event) => {
-        console.log(parseInt(event.target.dataset.id))
         if (parseInt(event.target.dataset.id) !== 0) {
             worksFiltered = works.filter((item) => item.categoryId === parseInt(event.target.dataset.id))
             showWorks(worksFiltered)

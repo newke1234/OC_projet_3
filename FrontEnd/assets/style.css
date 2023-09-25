@@ -78,7 +78,7 @@ h1 > span {
 ;
 }
 
-h2{
+h2, .button-categorie {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
@@ -95,14 +95,28 @@ nav li {
 	font-size: 1.2em;
 }
 
+.filtres {
+	margin-bottom: 60px;
+	margin-top: 40px;
+}
+
 .filtres ul {
-	display: flex;
 	justify-content: center;
 }
 
-.filtres button {
+.filtres li {
+	display: flex;
+	/* justify-content: center; */
+	gap: 10px;
+}
+
+.button-categorie {
+	padding: 9px 15px;
+	/* height: 37px; */
 	background-color: white;
-	border: none;
+	font-size: 1em;
+	border: 1px solid;
+	border-radius: 60px;
 	cursor: pointer;
  }
 li:hover {
