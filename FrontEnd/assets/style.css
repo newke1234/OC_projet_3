@@ -104,13 +104,13 @@ li:hover {
 	margin-top: 40px;
 }
 
-.filtres ul {
-	justify-content: center;
+.filtres li {
+	padding: 0;
 }
 
-.filtres li {
+.filtres ul {
 	display: flex;
-	/* justify-content: center; */
+	justify-content: center;
 	gap: 10px;
 }
 
