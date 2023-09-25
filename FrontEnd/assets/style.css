@@ -95,6 +95,16 @@ nav li {
 	font-size: 1.2em;
 }
 
+.filtres ul {
+	display: flex;
+	justify-content: center;
+}
+
+.filtres button {
+	background-color: white;
+	border: none;
+	cursor: pointer;
+ }
 li:hover {
 	color: #B1663C;
 }
