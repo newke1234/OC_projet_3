@@ -60,12 +60,12 @@ categoriesSet.forEach( item => {
 // }
 }
 
-// function filterByCategorie (worksSet, categoriesSetSet) {
+// Listener pour les boutons categories
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
     filterCategoryButton[i].addEventListener("click", (event) => {
         if (parseInt(event.target.dataset.id) !== 0) {
-            worksFiltered = works.filter((item) => item.categoryId === parseInt(event.target.dataset.id)) // Methode Avec filter() //
+            worksFiltered = works.filter(item => item.categoryId === parseInt(event.target.dataset.id)) // Methode filter()
             showWorks(worksFiltered)
         } else {
             showWorks(works)
