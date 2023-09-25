@@ -3,8 +3,7 @@ const works = await fetch("http://localhost:5678/api/works").then(works => works
 const categories = await fetch("http://localhost:5678/api/categories").then(categories => categories.json())
 
 const categoriesSet = new Set(categories) // Set pour éviter les doublons
-
-let worksFiltered = works // Liste des projets filtrée, ici : liste complète par défaut
+let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
 
 function showWorks(worksFiltered) {    
     // Effacer l'ancienne gallerie
@@ -40,14 +39,24 @@ listeButton.appendChild(buttonCatTous)
 filtresGallery.appendChild(listeButton)
     // Autres bouton categories
 // for (let i=0; i <categoriesSet.length; i++) {
-for (let item of categoriesSet) {
+
+categoriesSet.forEach( item => {
     const buttonCat = document.createElement('button')
     buttonCat.classList.add('button-categorie')
     buttonCat.dataset.id = item.id
     buttonCat.innerText = item.name
     listeButton.appendChild(buttonCat) 
     filtresGallery.appendChild(listeButton)
-}
+})
+
+// for (let item of categoriesSet) {
+//     const buttonCat = document.createElement('button')
+//     buttonCat.classList.add('button-categorie')
+//     buttonCat.dataset.id = item.id
+//     buttonCat.innerText = item.name
+//     listeButton.appendChild(buttonCat) 
+//     filtresGallery.appendChild(listeButton)
+// }
 }
 
 // function filterByCategorie (worksSet, categoriesSetSet) {
