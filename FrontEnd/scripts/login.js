@@ -1,4 +1,8 @@
 
+// On test si l'utilisateur est déjà connecté ?
+// check de window.sessionStorage
+// si deja connecté -> direction index.html sinon 
+
 
 // on ecoute le bouton 'se connecter'
 const loginSubmit = document.getElementById("loginSubmit")
@@ -38,17 +42,15 @@ loginSubmit.addEventListener('click', async () => {
         }
         // on recupère le token et on le stock dans le sessionStorage
         // CODE window.sessionStorage ici
-        window.location.href = "./index.html"   // On retourne vers la page d'accueil
+        
+        window.location.href = "./index.html"  // On retourne vers la page d'accueil
+          
     } catch (error) {
         // Sécurité ? On ne doit pas montrer dans la base de donnée que l'utilisateur n'est pas dans la base de donnée.
         console.clear()
         errorMessage.innerText = error        
     }
 })
-
-// si reponse du serveur = 200, on connecte l'utilisateur
-
-// sinon, on met message non valide
 
 
 
