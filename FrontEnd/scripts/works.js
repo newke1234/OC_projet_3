@@ -40,7 +40,7 @@ filtresGallery.appendChild(listeButton)
     // Autres bouton categories
 // for (let i=0; i <categoriesSet.length; i++) {
 
-categoriesSet.forEach( item => {
+categoriesSet.forEach(item => {
     const buttonCat = document.createElement("button")
     buttonCat.classList.add("button-categorie")
     buttonCat.dataset.id = item.id
