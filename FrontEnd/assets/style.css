@@ -48,8 +48,12 @@ table {
 }
 /** end reset css**/
 body {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	max-width: 1140px;
 	margin:auto;
+	height: 100vh;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	background-color: #FFFEF8;
@@ -191,16 +195,21 @@ a:hover {
 .formulaire h2 {
 	margin-bottom: 20px;
 }
+
+.login h2 {
+	margin-bottom: 0px;
+}
+
 .formulaire form {
 	text-align: left;
 	margin-top:20px;
 	display: flex;
 	flex-direction: column;
-	/* text-align: left; */
 }
 
 .formulaire input {
 	height: 50px;
+	padding: 0 10px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
@@ -214,14 +223,9 @@ a:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-.login {
-	/* align-items: center; */
-	/* align-content: center; */
-	margin-top: 10vh;
-	height: 70vh;
-	/* margin: auto; */
-	/* transform: translateY(-50%); */
-}
+/* .login {
+	margin-top: auto;
+} */
 
 .login a {
 	text-decoration: none;
@@ -230,7 +234,7 @@ a:hover {
 
 .login a:hover {
 	text-decoration: underline;
-	
+
 }
 
 input[type="submit"]{
@@ -246,7 +250,6 @@ input[type="submit"]{
 
 footer nav ul {
 	display: flex;
-	align-items: flex-end;
 	justify-content: flex-end;
 	margin: 2em
 }
