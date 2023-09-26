@@ -30,16 +30,14 @@ function showWorks(worksFiltered) {
 { //afficher les boutons de categorie
 const filtresGallery = document.querySelector(".filtres ul")
 const listeButton = document.createElement("li")
-    // Bouton catégorie "Tous"
+// Bouton catégorie "Tous"
 const buttonCatTous = document.createElement("button")
 buttonCatTous.dataset.id = "0"
 buttonCatTous.innerText = "Tous"
 buttonCatTous.classList.add("button-categorie")
 listeButton.appendChild(buttonCatTous)
 filtresGallery.appendChild(listeButton)
-    // Autres bouton categories
-// for (let i=0; i <categoriesSet.length; i++) {
-
+// Autres boutons categories
 categoriesSet.forEach(item => {
     const buttonCat = document.createElement("button")
     buttonCat.classList.add("button-categorie")

@@ -249,6 +249,13 @@ input[type="submit"]{
 	cursor: pointer;
 }
 
+.errorMessage {
+	margin: 25px;
+	height: 50px;
+	color: red;
+	/* background-color: #B1663C; */
+}
+
 footer {
 	background-color: white;
 }
