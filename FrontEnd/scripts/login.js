@@ -45,7 +45,7 @@ loginSubmit.addEventListener('click', async () => {
           
     } catch (error) {
         // Sécurité ? On ne doit pas montrer que l'utilisateur est dans la base de donnée.
-        // console.clear()
+        console.clear()
         errorMessage.innerText = error        
     }
 })
