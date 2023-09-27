@@ -182,10 +182,33 @@ a:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+
+#portfolio {
+	padding-top: 50px;
+	text-align: center;
+}
+
 #portfolio h2 {
+	display : inline-block;
+	justify-content: center;
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.button-modifier {
+	position: relative;
+	left: 160px;
+	top: -53px;
+	background-color: #FFFEF8;
+	border: none;
+	font-size: 1em;
+	font-family: 'Work Sans' ;
+}
+
+.button-modifier i{
+	margin-right: 5px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;

@@ -7,7 +7,7 @@ let worksFiltered = works // Tableau des projets filtrée, ici : liste complète
 
 // verifier si un utilisateur est loggué
 let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
-// tokenSession = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4") // je suis loggué
+tokenSession = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4") // je suis loggué
 if (tokenSession) {
     const menuLogout = document.querySelector(".menu-logout")
     const menuLogin = document.querySelector(".menu-login")
