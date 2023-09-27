@@ -1,8 +1,5 @@
-
-// On test si l'utilisateur est déjà connecté ?
-// check de window.sessionStorage
-// si deja connecté -> direction index.html sinon 
-
+// On vide le sessionStorage
+window.sessionStorage.removeItem("token")
 
 // on ecoute le bouton 'se connecter'
 const loginSubmit = document.getElementById("loginSubmit")
@@ -41,13 +38,14 @@ loginSubmit.addEventListener('click', async () => {
            throw new Error('Email/Mot de passe non autorisés') 
         }
         // on recupère le token et on le stock dans le sessionStorage
-        // CODE window.sessionStorage ici
-        
+        let result = await answer.json()
+        window.sessionStorage.setItem("token", JSON.stringify(result.token))
+        console.log(window.sessionStorage.getItem("token"))
         window.location.href = "./index.html"  // On retourne vers la page d'accueil
           
     } catch (error) {
-        // Sécurité ? On ne doit pas montrer dans la base de donnée que l'utilisateur n'est pas dans la base de donnée.
-        console.clear()
+        // Sécurité ? On ne doit pas montrer que l'utilisateur est dans la base de donnée.
+        // console.clear()
         errorMessage.innerText = error        
     }
 })
