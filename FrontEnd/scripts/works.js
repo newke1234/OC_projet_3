@@ -1,15 +1,16 @@
 // creer un fichier JS avec les constantes (pour le port de l'API par ex)
 console.log (apiPort)
 // Récupération des projets du site depuis l"API
-const works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-const categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
+let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
 
-const categoriesSet = new Set(categories) // Set pour éviter les doublons
+let categoriesSet = new Set(categories) // Set pour éviter les doublons
 let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
 
-
-//
-//
+/**
+ * Cette fonction affiche les projets
+ * @param {*} worksFiltered 
+ */
 function showWorks(worksFiltered) {    
     // Effacer l"ancienne gallerie
     const galleryContent = document.querySelector(".gallery")
@@ -24,26 +25,25 @@ function showWorks(worksFiltered) {
         imageElement.alt = worksFiltered[i].title // ajout de la balise Alt
         const figcaptionTag = document.createElement("figcaption")
         figcaptionTag.innerText = worksFiltered[i].title
-        
-        // Affichage elements
-        figureTag.appendChild(imageElement)
+        figureTag.appendChild(imageElement) // Affichage les nouveaux elements
         figureTag.appendChild(figcaptionTag)
         galleryContent.appendChild(figureTag)
     }
 }
 
-{ //afficher les boutons de categorie
+/**
+ * Cette fonction affiche les boutons de categorie
+ */
+function showFilterButtons() {
     const filtresGallery = document.querySelector(".filtres ul")
     const listeButton = document.createElement("li")
-    // Bouton catégorie "Tous"
-    const buttonCatTous = document.createElement("button")
+    const buttonCatTous = document.createElement("button")  // Bouton catégorie "Tous"
     buttonCatTous.dataset.id = "0"
     buttonCatTous.innerText = "Tous"
     buttonCatTous.classList.add("button-categorie")
     listeButton.appendChild(buttonCatTous)
     filtresGallery.appendChild(listeButton)
-    // Autres boutons categories
-    categoriesSet.forEach(item => {
+    categoriesSet.forEach(item => {   // Autres boutons categories
         const buttonCat = document.createElement("button")
         buttonCat.classList.add("button-categorie")
         buttonCat.dataset.id = item.id
@@ -54,11 +54,13 @@ function showWorks(worksFiltered) {
     })
 }
 
-// Listener pour les boutons categories
+showFilterButtons()
+
+// Listener pour les boutons categories 
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
-    filterCategoryButton[i].addEventListener("click", (event) => {
-        // works = await fetch("http://localhost:5678/api/works").then(works => works.json())
+    filterCategoryButton[i].addEventListener("click", async (event) => {
+        works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
         if (parseInt(event.target.dataset.id) !== 0) {
             worksFiltered = works.filter(item => item.categoryId === parseInt(event.target.dataset.id)) // Methode filter()
             showWorks(worksFiltered)
