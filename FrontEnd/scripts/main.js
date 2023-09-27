@@ -40,10 +40,12 @@ const menuLogout = document.querySelector('.menu-logout')
 menuLogout.addEventListener('click', () => {
     const popupLogout = document.querySelector('.popup-logout')
     popupLogout.classList.remove('hidden')
+    popupLogout.setAttribute("aria-modal", "true")
     document.querySelector('body').classList.add('no-scroll')
     const answerLogoutAnswerButtons = document.querySelectorAll('.popup-logout div button')
     for (let i=0; i < answerLogoutAnswerButtons.length; i++) {
         answerLogoutAnswerButtons[i].addEventListener('click', (event) => {
+            popupLogout.setAttribute("aria-modal", "false")
             if (event.target.dataset.answer === "yes") {
                 window.sessionStorage.removeItem("token")
                 window.location.href = "./index.html"
