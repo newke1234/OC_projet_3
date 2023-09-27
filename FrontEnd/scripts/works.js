@@ -25,7 +25,7 @@ function showWorks(worksFiltered) {
 /**
  * Cette fonction affiche les boutons de categorie
  */
-function showFilterButtons() {
+function showFilterButtons(categories) {
     const filtresGallery = document.querySelector(".filtres ul")
     const listeButton = document.createElement("li")
     const buttonCatTous = document.createElement("button")  // Bouton catégorie "Tous"
@@ -34,7 +34,7 @@ function showFilterButtons() {
     buttonCatTous.classList.add("button-categorie")
     listeButton.appendChild(buttonCatTous)
     filtresGallery.appendChild(listeButton)
-    categoriesSet.forEach(item => {   // Autres boutons categories
+    categories.forEach(item => {   // Autres boutons categories
         const buttonCat = document.createElement("button")
         buttonCat.classList.add("button-categorie")
         buttonCat.dataset.id = item.id
@@ -44,40 +44,3 @@ function showFilterButtons() {
         filtresGallery.appendChild(listeButton)
     })
 }
-
-// verifier si un utilisateur est loggué
-let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
-if (tokenSession) {
-    console.log(tokenSession)
-    const menuLogout = document.querySelector(".menu-logout")
-    const menuLogin = document.querySelector(".menu-login")
-    menuLogout.classList.remove("hidden")
-    menuLogin.classList.add("hidden")
-}
-
-// Récupération des projets du site depuis l"API
-let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
-
-let categoriesSet = new Set(categories) // Set pour éviter les doublons
-let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
-
-
-
-showFilterButtons()
-
-// Listener pour les boutons categories 
-const filterCategoryButton = document.querySelectorAll(".button-categorie")
-for (let i=0; i <filterCategoryButton.length; i++) {
-    filterCategoryButton[i].addEventListener("click", async (event) => {
-        works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-        if (parseInt(event.target.dataset.id) !== 0) {
-            worksFiltered = works.filter(item => item.categoryId === parseInt(event.target.dataset.id)) // Methode filter()
-            showWorks(worksFiltered)
-        } else {
-            showWorks(works)
-        }
-    })
-}
-
-showWorks(worksFiltered)
