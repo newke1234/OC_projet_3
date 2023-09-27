@@ -20,4 +20,4 @@ Lien pour voir la
 
 Pour lire la documentation, utiliser Chrome ou Firefox
 
-### IMPORTANT! : Le port de l'api peut-être reglé dans le fichier const.js
+### IMPORTANT! : Le port de l'api peut-être reglé dans le fichier config.js
