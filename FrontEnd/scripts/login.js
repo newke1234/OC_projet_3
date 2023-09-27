@@ -32,13 +32,13 @@ loginSubmit.addEventListener('click', async () => {
     userData = JSON.stringify(userData)
     // Envoyer requete POST avec les données userData
     try {
-        let answer = await fetch("http://localhost:5678/api/users/login", {
+        let answer = await fetch("http://localhost:" + apiPort + "/api/users/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: userData
         })
         if (answer.status === 404 || answer.status === 401) {
-           throw new Error('Email/Mot de passe incorrects') 
+           throw new Error('Email/Mot de passe non autorisés') 
         }
         // on recupère le token et on le stock dans le sessionStorage
         // CODE window.sessionStorage ici
