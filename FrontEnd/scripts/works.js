@@ -2,7 +2,7 @@
  * Cette fonction affiche les projets
  * @param {*} worksFiltered 
  */
-function showWorks(worksFiltered) {    
+function showWorks(worksFiltered) {     
     // Effacer l"ancienne gallerie
     const galleryContent = document.querySelector(".gallery")
     galleryContent.innerHTML = ""
