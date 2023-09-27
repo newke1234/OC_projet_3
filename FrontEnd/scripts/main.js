@@ -1,15 +1,3 @@
-// import { showWorks, showFilterButtons } from "./works.js"
-
-// verifier si un utilisateur est loggué
-let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
-// tokenSession = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4") // je suis loggué
-if (tokenSession) {
-    const menuLogout = document.querySelector(".menu-logout")
-    const menuLogin = document.querySelector(".menu-login")
-    menuLogout.classList.remove("hidden")
-    menuLogin.classList.add("hidden")
-}
-
 // Récupération des projets du site depuis l"API
 let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
 let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
@@ -17,7 +5,20 @@ let categories = await fetch("http://localhost:" + apiPort + "/api/categories").
 let categoriesSet = new Set(categories) // Set pour éviter les doublons
 let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
 
-showFilterButtons(categoriesSet)
+// verifier si un utilisateur est loggué
+let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
+// tokenSession = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4") // je suis loggué
+if (tokenSession) {
+    const menuLogout = document.querySelector(".menu-logout")
+    const menuLogin = document.querySelector(".menu-login")
+    const modeEdition = document.querySelector(".modeEdition")
+    menuLogout.classList.remove("hidden")
+    menuLogin.classList.add("hidden")
+    modeEdition.classList.remove("hidden")
+} else {
+    showFilterButtons(categoriesSet)
+}
+
 showWorks(worksFiltered)
 
 // Listener pour les boutons categories 

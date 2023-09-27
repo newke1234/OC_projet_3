@@ -9,18 +9,22 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://kit.fontawesome.com/cf28a486fc.js" crossorigin="anonymous"></script>
 	<script src="./scripts/config.js" defer></script>
 	<script src="./scripts/works.js" defer></script>
 	<script type="module" src="./scripts/main.js" defer></script>
 </head>
 <body>
-	
+<div class="modeEdition hidden">
+	<i class="fa-regular fa-pen-to-square"></i>
+	<p>Mode édition</p>
+</div>	
 <header>
 	<h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
 	<nav class="menu">
 		<ul>
 			<li><a href="./index.html">projets</a></li>
-			<li>contact</li>
+			<li><a href="#contact">contact</a></li>
 			<li class="menu-login"><a href="./login.html">login</a></li>
 			<li class="menu-logout hidden">logout</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
@@ -48,7 +52,7 @@
 		</div>
 	</section>
 	<section class="formulaire">
-		<h2>Contact</h2>
+		<h2 id="contact">Contact</h2>
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
 			<label for="name">Nom</label>
@@ -65,7 +69,7 @@
 <footer>
 	<nav>
 		<ul>
-			<li>Mentions Légales</li>
+			<li><a href="#">Mentions Légales</a></li>
 		</ul>
 	</nav>
 </footer>
