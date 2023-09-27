@@ -4,7 +4,6 @@
 let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
 // tokenSession = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4") // je suis loggué
 if (tokenSession) {
-    console.log(tokenSession)
     const menuLogout = document.querySelector(".menu-logout")
     const menuLogin = document.querySelector(".menu-login")
     menuLogout.classList.remove("hidden")
@@ -40,15 +39,16 @@ const menuLogout = document.querySelector('.menu-logout')
 menuLogout.addEventListener('click', () => {
     const popupLogout = document.querySelector('.popup-logout')
     popupLogout.classList.remove('hidden')
+    document.querySelector('body').classList.add('no-scroll')
     const answerLogoutAnswerButtons = document.querySelectorAll('.popup-logout div button')
     for (let i=0; i < answerLogoutAnswerButtons.length; i++) {
         answerLogoutAnswerButtons[i].addEventListener('click', (event) => {
-            console.log(event)
             if (event.target.dataset.answer === "yes") {
                 window.sessionStorage.removeItem("token")
                 window.location.href = "./index.html"
             } else {
                 popupLogout.classList.add('hidden')
+                document.querySelector('body').classList.remove('no-scroll')
                 return
             }
         })
