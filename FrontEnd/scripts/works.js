@@ -1,12 +1,3 @@
-// creer un fichier JS avec les constantes (pour le port de l'API par ex)
-console.log (apiPort)
-// Récupération des projets du site depuis l"API
-let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
-
-let categoriesSet = new Set(categories) // Set pour éviter les doublons
-let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
-
 /**
  * Cette fonction affiche les projets
  * @param {*} worksFiltered 
@@ -53,6 +44,25 @@ function showFilterButtons() {
         filtresGallery.appendChild(listeButton)
     })
 }
+
+// verifier si un utilisateur est loggué
+let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
+if (tokenSession) {
+    console.log(tokenSession)
+    const menuLogout = document.querySelector(".menu-logout")
+    const menuLogin = document.querySelector(".menu-login")
+    menuLogout.classList.remove("hidden")
+    menuLogin.classList.add("hidden")
+}
+
+// Récupération des projets du site depuis l"API
+let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
+
+let categoriesSet = new Set(categories) // Set pour éviter les doublons
+let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
+
+
 
 showFilterButtons()
 
