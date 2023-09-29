@@ -38,11 +38,11 @@ for (let i=0; i <filterCategoryButton.length; i++) {
 // Listener bouton logout
 const menuLogout = document.querySelector('.menu-logout')
 menuLogout.addEventListener('click', () => {
-    const popupLogout = document.querySelector('.popup-logout')
+    const popupLogout = document.querySelector('.modal-logout')
     popupLogout.classList.remove('hidden')
     popupLogout.setAttribute("aria-modal", "true")
     document.querySelector('body').classList.add('no-scroll')
-    const answerLogoutAnswerButtons = document.querySelectorAll('.popup-logout div button')
+    const answerLogoutAnswerButtons = document.querySelectorAll('.modal-logout div button')
     for (let i=0; i < answerLogoutAnswerButtons.length; i++) {
         answerLogoutAnswerButtons[i].addEventListener('click', (event) => {
             popupLogout.setAttribute("aria-modal", "false")
@@ -57,3 +57,10 @@ menuLogout.addEventListener('click', () => {
         })
     }
 })
+
+//Listener bouton modifier
+const modaleMain = document.querySelector(".button-modifier")
+modaleMain.addEventListener("click", () => {
+    
+} )
+
