@@ -47,7 +47,7 @@
 		<div>
 			<h2>Mes Projets</h2>
 		</div>
-		<button class="button-modifier">
+		<button class="button-modifier hidden">
 			<i class="fa-regular fa-pen-to-square"></i>
 			modifier
 		</button>
@@ -81,9 +81,23 @@
 		</div>
 	</aside>
 
-	<aside class="modale-main">
-		<div class="modale-main-wrapper">
-			
+	<aside class="modal-main hidden" aria-hidden="true" aria-modal="false">
+		<div class="modal-main-wrapper">
+			<i class="fa-sharp fa-solid fa-xmark"></i>
+			<div class="photoGallery">
+				<h2>Galerie Photo</h2>
+				<div class="showGallery">
+				</div>
+				<hr>
+				<button class="addPhoto">Ajouter une photo</button>
+			</div>
+			<div class="addPhoto hidden">
+				<h2>Ajout Photo</h2>
+				<div class="modifyingGallery">
+				</div>
+				<hr>
+				<button class="addPhoto">Ajouter une photo</button>
+			</div>
 		</div>
 	</aside>
 </main>
