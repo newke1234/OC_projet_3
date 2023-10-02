@@ -52,11 +52,11 @@ const openModal = function (event) {
     modal.setAttribute("aria-modal", true)
     document.querySelector('body').classList.add('no-scroll')
     // console.log(modal.id)
-    if (modal.id === "modal-logout") modalLogout
+    if (modal.id === "modal-logout") modalLogout()
+    if (modal.id === "modal-main")  modalBackOffice()
     modal.addEventListener("click", closeModal)
     modal.querySelector(".js-modal-close").addEventListener("click", closeModal)
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
-
 } 
 
 /**
@@ -89,30 +89,9 @@ document.querySelectorAll('.js-modal').forEach(a => {
 })
 
 /*
-// Listener bouton logout
-const menuLogout = document.querySelector('.menu-logout')
-menuLogout.addEventListener('click', () => {
-    const popupLogout = document.querySelector('.modal-logout')
-
-    const answerLogoutAnswerButtons = document.querySelectorAll('.modal-logout div button')
-    for (let i=0; i < answerLogoutAnswerButtons.length; i++) {
-        answerLogoutAnswerButtons[i].addEventListener('click', (event) => {
-            popupLogout.setAttribute("aria-modal", "false")
-            if (event.target.dataset.answer === "yes") {
-                window.sessionStorage.removeItem("token")
-                window.location.href = "./index.html"
-            } else {
-                popupLogout.classList.add('hidden')
-                document.querySelector('body').classList.remove('no-scroll')
-                return
-            }
-        })
-    }
-})
 
 //Listener bouton modifier
-const modalMain = document.querySelector(".modal-main")
-const modifierButton = document.querySelector(".button-modifier")
+
 modifierButton.addEventListener("click", async () => {
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
     const showGallery = document.querySelector(".showGallery")

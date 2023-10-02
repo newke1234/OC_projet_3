@@ -1,11 +1,8 @@
 /**
  * Fonction pour  gérer le bouton oui de la modale "logout"
  * Le bouton "non" est géré avec la fonction "closeModal"
- * @param {*} modalContent 
  */
-function modalLogout(modalContent) {
-    // const answerLogoutButtons = document.querySelectorAll('#modal-logout div button')
-    // for (let i=0; i < answerLogoutButtons.length; i++) {
+function modalLogout() {
     const answerLogoutButtons = document.getElementById("yes-button")
     answerLogoutButtons.addEventListener('click', () => {
         window.sessionStorage.removeItem("token")
@@ -13,12 +10,14 @@ function modalLogout(modalContent) {
     })
 }
 
-
-async function modalMain (modalContent) {
+/**
+ * 
+ */
+async function modalBackOffice() {
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
     const showGallery = document.querySelector(".showGallery")
     showGallery.innerHTML = ""
-    // const modalMain = document.querySelector(".modal-main")
+    const modalMain = document.querySelector("#modal-main")
     modalMain.classList.remove('hidden')
     modalMain.setAttribute("aria-modal", "true")
     document.querySelector('body').classList.add('no-scroll')
