@@ -1,9 +1,9 @@
 // Récupération des projets du site depuis l"API
 let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
 let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
-
 let categoriesSet = new Set(categories) // Set pour éviter les doublons
-let worksFiltered = works // Tableau des projets filtrée, ici : liste complète par défaut
+let worksFiltered = works // Tableau des projets filtrée. Liste complète par défaut
+let modal = null
 
 // verifier si un utilisateur est loggué
 let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
@@ -23,6 +23,8 @@ if (tokenSession) {
 
 showWorks(worksFiltered)
 
+const modalMain = document.getElementById("modal-main")
+
 // Listener pour les boutons categories 
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
@@ -37,13 +39,61 @@ for (let i=0; i <filterCategoryButton.length; i++) {
     })
 }
 
+/**
+ * Fonction Ouvrir une boite modale
+ * @param {*} event 
+ */
+const openModal = function (event) {
+    event.preventDefault()
+    const target = document.querySelector(event.target.getAttribute('href'))
+    modal = target
+    modal.classList.remove("hidden")
+    modal.setAttribute("aria-hidden", false)
+    modal.setAttribute("aria-modal", true)
+    document.querySelector('body').classList.add('no-scroll')
+    // console.log(modal.id)
+    if (modal.id === "modal-logout") modalLogout
+    modal.addEventListener("click", closeModal)
+    modal.querySelector(".js-modal-close").addEventListener("click", closeModal)
+    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
+
+} 
+
+/**
+ * Fermer une Boite modale
+ * @param {*} event 
+ * @returns 
+ */
+const closeModal = function (event) {
+    if (modal === null) return
+    event.preventDefault()
+    modal.classList.add("hidden")
+    modal.setAttribute("aria-hidden", true)
+    modal.setAttribute("aria-modal", false)
+    modal.removeEventListener("click", openModal)
+    modal = null
+}
+
+/**
+ * Fonction : Empeche la propagation du clic de souris aux éléments enfants de la boîte modale
+ * @param {*} event 
+ */
+const stopPropagation = function (event) {
+    event.stopPropagation()
+}
+
+// Listener pour modales "logout" et "main"
+
+document.querySelectorAll('.js-modal').forEach(a => {
+    a.addEventListener('click', openModal)
+})
+
+/*
 // Listener bouton logout
 const menuLogout = document.querySelector('.menu-logout')
 menuLogout.addEventListener('click', () => {
     const popupLogout = document.querySelector('.modal-logout')
-    popupLogout.classList.remove('hidden')
-    popupLogout.setAttribute("aria-modal", "true")
-    document.querySelector('body').classList.add('no-scroll')
+
     const answerLogoutAnswerButtons = document.querySelectorAll('.modal-logout div button')
     for (let i=0; i < answerLogoutAnswerButtons.length; i++) {
         answerLogoutAnswerButtons[i].addEventListener('click', (event) => {
@@ -83,14 +133,14 @@ modifierButton.addEventListener("click", async () => {
     }
 })
 
-//listener Croix de fermeture de la modale
-const crossIcon = document.querySelector(".fa-xmark")
-crossIcon.addEventListener('click', () => {
-    modalMain.classList.add('hidden')
-    modalMain.classList.remove('no-scroll')
-    document.querySelector('body').classList.remove('no-scroll')
-})
+*/
 
-// Listener hors modal
-const outOfModal = document
+//listener Croix de fermeture de la modale
+// const crossIcon = document.querySelector(".fa-xmark")
+// crossIcon.addEventListener('click', () => {
+//     modalMain.classList.add('hidden')
+//     modalMain.classList.remove('no-scroll')
+//     document.querySelector('body').classList.remove('no-scroll')
+// })
+
 

@@ -12,6 +12,7 @@
 	<script src="https://kit.fontawesome.com/cf28a486fc.js" crossorigin="anonymous"></script>
 	<script src="./scripts/config.js" defer></script>
 	<script src="./scripts/works.js" defer></script>
+	<script src="./scripts/modals.js" defer></script>
 	<script type="module" src="./scripts/main.js"></script>
 </head>
 <body>
@@ -26,7 +27,7 @@
 			<li><a href="./index.html">projets</a></li>
 			<li><a href="#contact">contact</a></li>
 			<li class="menu-login"><a href="./login.html">login</a></li>
-			<li class="menu-logout hidden">logout</li>
+			<li class="menu-logout hidden"><a href="#modal-logout" class="js-modal">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -47,10 +48,10 @@
 		<div>
 			<h2>Mes Projets</h2>
 		</div>
-		<button class="button-modifier hidden">
+		<a href="#modal-main" class="button-modifier js-modal hidden">
 			<i class="fa-regular fa-pen-to-square"></i>
 			modifier
-		</button>
+		</a>
 		<nav class="filtres">
 			<ul></ul>
 		</nav>
@@ -71,19 +72,19 @@
 		</form>
 	</section>
 
-	<aside class="modal-logout hidden" aria-modal="false">
-		<div class="modal-logout-wrapper">
+	<aside id="modal-logout" class="hidden" aria-modal="false" aria-hidden="true">
+		<div class="modal-logout-wrapper js-modal-stop">
 			<p>Voulez-vous vous déconnecter ?</p>
 			<div>
 				<button data-answer="yes">Oui</button>
-				<button data-answer="no">Non</button>
+				<button class="js-modal-close">Non</button>
 			</div>
 		</div>
 	</aside>
 
-	<aside class="modal-main hidden" aria-hidden="true" aria-modal="false">
-		<div class="modal-main-wrapper">
-			<i class="fa-sharp fa-solid fa-xmark"></i>
+	<aside id="modal-main" class="hidden" aria-hidden="true" aria-modal="false">
+		<div class="modal-main-wrapper js-modal-stop">
+			<i class="js-modal-close fa-sharp fa-solid fa-xmark"></i>
 			<div class="photoGallery">
 				<h2>Galerie Photo</h2>
 				<div class="showGallery">
