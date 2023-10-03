@@ -145,7 +145,7 @@ a:hover {
 	gap: 10px;
 }
 
-.button-categorie, #modal-logout button, .addPhoto{
+.button-categorie, #modal-logout button, #modal-validateDelete button, .addPhoto{
 	padding: 9px 15px;
 	background-color: #FFFEF8;
 	font-family: 'Syne';
@@ -313,7 +313,7 @@ footer nav ul {
 	margin: 2em
 }
 
-#modal-logout, #modal-main {
+#modal-logout, #modal-main, #modal-validateDelete {
 	position: fixed;
 	font-size: 1.2em;
 	display: flex;
@@ -329,7 +329,9 @@ footer nav ul {
 
 }
 
-.modal-logout-wrapper {
+.modal-logout-wrapper, .modal-validateDelete-wrapper {
+	display: flex;
+	gap:20px ;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
@@ -339,10 +341,6 @@ footer nav ul {
 	border-radius: 15px;
 }
 
-.modal-logout-wrapper  {
-	display: flex;
-	gap:20px ;
-}
 
 .modal-main-wrapper {
 	
@@ -397,28 +395,28 @@ footer nav ul {
 }
 
 .fa-trash-can {
-	/* margin: auto; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 0.8em;
-	font-weight: 400;
 	color: white;
+	width: 15px;
+	height: 15px;
 }
 
 .trash {
+	display:flex;
 	position: relative;
 	border-radius: 3px;
 	top: -80%;
 	left: 65%;
-	justify-content: center;
-	align-items: center;
 	width: 15px;
 	height: 15px;
 	padding: 3px;
 	background-color: black;
 	cursor:pointer;
-
+	font-size: 13px;
+	font-weight: 400;
+	color: white;
 }
 
 .addPhoto {
@@ -427,7 +425,6 @@ footer nav ul {
 	background-color: #1D6154;
 	color: white;
 	padding: 10px 50px;
-
 }
 
 hr {
@@ -435,10 +432,7 @@ hr {
 	justify-content: space-around;
 	width: 88%;
 	margin: 20px auto;
-
 }
-
-
 
 .no-scroll {
 	overflow: hidden;

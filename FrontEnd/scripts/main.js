@@ -39,53 +39,15 @@ for (let i=0; i <filterCategoryButton.length; i++) {
     })
 }
 
-/**
- * Fonction Ouvrir une boite modale
- * @param {*} event 
- */
-const openModal = function (event) {
-    event.preventDefault()
-    modal = document.querySelector(event.target.getAttribute('href'))
-    modal.classList.remove("hidden")
-    modal.setAttribute("aria-hidden", false)
-    modal.setAttribute("aria-modal", true)
-    document.querySelector('body').classList.add('no-scroll')
-    // console.log(modal.id)
-    if (modal.id === "modal-logout") modalLogout()
-    if (modal.id === "modal-main")  modalBackOffice()
-    modal.addEventListener("click", closeModal)
-    modal.querySelector(".js-modal-close").addEventListener("click", closeModal)
-    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
-} 
-
-/**
- * Fermer une Boite modale
- * @param {*} event 
- * @returns 
- */
-const closeModal = function (event) {
-    if (modal === null) return
-    event.preventDefault()
-    modal.classList.add("hidden")
-    modal.setAttribute("aria-hidden", true)
-    modal.setAttribute("aria-modal", false)
-    modal.removeEventListener("click", openModal)
-    modal = null
-}
-
-/**
- * Fonction : Empeche la propagation du clic de souris aux éléments enfants de la boîte modale
- * @param {*} event 
- */
-const stopPropagation = function (event) {
-    event.stopPropagation()
-}
-
 // Listener pour modales "logout" et "main"
 
 document.querySelectorAll('.js-modal').forEach(a => {
-    a.addEventListener('click', openModal)
+    a.addEventListener('click', (event) => {
+    modal = document.querySelector(event.target.getAttribute('href'))
+    openModal(modal)
+    })
 })
+
 
 /*
 
