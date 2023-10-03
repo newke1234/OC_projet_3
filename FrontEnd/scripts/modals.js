@@ -25,13 +25,17 @@ async function modalBackOffice() {
     for (let i=0; i < works.length; i++) {
         const figureTag = document.createElement("figure")
         const imageElement = document.createElement("img")
+        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
+        imageElement.alt = works[i].title // ajout de la balise Alt
+        const trashIconDiv = document.createElement("div")
+        trashIconDiv.classList.add("trash")
         const trashIcon = document.createElement("i")
         trashIcon.classList.add("fa-solid")
         trashIcon.classList.add("fa-trash-can")
-        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
-        imageElement.alt = works[i].title // ajout de la balise Alt
+        trashIcon.innerHTML = ""
+        trashIconDiv.appendChild(trashIcon)
         figureTag.appendChild(imageElement) // Affichage les nouveaux elements
-        figureTag.appendChild(trashIcon) // Affichage de l'icon trash
+        figureTag.appendChild(trashIconDiv) // Affichage de l'icon trash
         showGallery.appendChild(figureTag)
     }
 }
