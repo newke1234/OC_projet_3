@@ -45,8 +45,7 @@ for (let i=0; i <filterCategoryButton.length; i++) {
  */
 const openModal = function (event) {
     event.preventDefault()
-    const target = document.querySelector(event.target.getAttribute('href'))
-    modal = target
+    modal = document.querySelector(event.target.getAttribute('href'))
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
