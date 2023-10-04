@@ -84,8 +84,10 @@
 
 	<aside id="modal-main" class="hidden" aria-hidden="true" aria-modal="false">
 		<div class="modal-main-wrapper js-modal-stop">
-			<i class="js-modal-back fa-solid fa-arrow-left"></i>
-			<i class="js-modal-close fa-sharp fa-solid fa-xmark"></i>
+			<div class="icons-modal-main">
+				<i class=" hidden js-modal-back fa-solid fa-arrow-left" ></i>
+				<i class="js-modal-close fa-sharp fa-solid fa-xmark"></i>
+			</div>
 			<div class="photoGallery">
 				<h2>Galerie Photo</i></h2>
 				<div class="showGallery">
@@ -93,12 +95,12 @@
 				<hr>
 				<button class="addPhoto">Ajouter une photo</button>
 			</div>
-			<div class="addPhoto hidden">
+			<div class="addPhotoGallery hidden">
 				<h2>Ajout Photo</h2>
 				<div class="modifyGallery">
 				</div>
 				<hr>
-				
+				<button class="addPhotoValidate" disabled>Valider</button>
 			</div>
 			<p class="modal-message"></p>
 		</div>

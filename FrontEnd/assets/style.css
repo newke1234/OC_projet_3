@@ -146,7 +146,7 @@ a:hover {
 	gap: 10px;
 }
 
-.button-categorie, #modal-logout button, #modal-validateDelete button, #modal-logout-forced button,.addPhoto{
+.button-categorie, #modal-logout button, #modal-validateDelete button, #modal-logout-forced button,.addPhoto, .addPhotoValidate{
 	padding: 9px 15px;
 	background-color: #FFFEF8;
 	font-family: 'Syne';
@@ -156,6 +156,10 @@ a:hover {
 	border-radius: 60px;
 	cursor: pointer;
 	color:#1D6154;
+}
+
+.addPhotoValidate:disabled {
+	background-color: lightgray ;
 }
 
 .button-categorie:hover,#modal-validateDelete button:hover, #modal-logout button:hover, #modal-logout-forced button:hover {
@@ -370,7 +374,7 @@ footer nav ul {
 .modal-main-wrapper i {
 	margin-bottom: 25px;
 	width: 100%;
-	text-align: right;
+	/* text-align:center; */
 }
 
 .modal-logout-forced-wrapper {
@@ -398,11 +402,28 @@ footer nav ul {
 	height: 100px;
 }
 
-.fa-xmark { 		/* croix de fermeture */
-	cursor: pointer;
+.icons-modal-main {
+	display: flex;
+	width: 100%;
+
 }
 
-.photoGallery {
+.fa-xmark { /* croix de fermeture */
+	display: flex;
+	cursor: pointer;
+	text-align: right;
+
+}
+
+.fa-arrow-left { /* flèche de  retour */
+	display: flex;
+	cursor: pointer;
+	font-size: larger;
+	text-align: left;
+}
+
+
+.photoGallery, .addPhotoGallery {
 	padding: 0;
 }
 
@@ -432,7 +453,7 @@ footer nav ul {
 	color: white;
 }
 
-.addPhoto {
+.addPhoto,  .addPhotoValidate {
 	margin-top: 20px;
 	font-size: 0.8em;
 	background-color: #1D6154;

@@ -14,12 +14,13 @@ function openModal (modal) {
     modal.setAttribute("aria-modal", true)
     document.querySelector('body').classList.add('no-scroll')
     if (modal.id === "modal-logout") logout()
-    if (modal.id === "modal-main")  modalBackOffice()
+    if (modal.id === "modal-main") {}  modalBackOffice()
     if (modal.id !== "modal-logout-forced") modal.addEventListener("click", () => closeModal(modal))
     if (modal.querySelector(".js-modal-close")) modal.querySelector(".js-modal-close").addEventListener("click", () => { 
-        closeModal(modal)
         let deleteOk = document.querySelector(".modal-message")
-        deleteOk.innerText = ""
+        deleteOk.innerText = "bou"
+        console.log(deleteOk)
+        closeModal(modal)
     })
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
 } 
@@ -114,7 +115,7 @@ async function modalBackOffice() {
  * @param {*} showGallery Contenu de la page modale principale
  */
 async function showGalleryFunction(works, showGallery) {
-    // Affichage de la gallerie 
+    // Affichage de la gallerie de projets
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
     for (let i=0; i < works.length; i++) {
         const figureTag = document.createElement("figure")
@@ -147,5 +148,12 @@ async function showGalleryFunction(works, showGallery) {
     })
 
     // test Ajout Photo
-    showGallery.querySelector('AddPhoto').addEventListener('click',  )
+    document.querySelector('.addPhoto').addEventListener('click', () => {
+        const photoGalleryElement = document.querySelector(".photoGallery")
+        photoGalleryElement.classList.add("hidden")
+        const addPhotoGalleryElement = document.querySelector(".addPhotoGallery")
+        addPhotoGalleryElement.classList.remove("hidden")
+        console.log(addPhotoGalleryElement)
+
+    } )
 }
