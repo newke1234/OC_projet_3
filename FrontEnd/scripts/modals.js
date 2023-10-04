@@ -84,7 +84,7 @@ function modalWorkDelete(workid, modal) {
               }
             if (answer.status === 404 || answer.status === 500) { // si erreur coté API
                 let deleteOk = document.querySelector(".modal-message")
-                deleteOk.style.color = "#1D6154"
+                deleteOk.style.color = "red"
                 deleteOk.innerText = `Opération impossible - erreur ${answer.status}`
                 throw new Error(`Opération impossible - erreur ${answer.status}`)
             }
