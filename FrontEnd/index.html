@@ -84,22 +84,23 @@
 
 	<aside id="modal-main" class="hidden" aria-hidden="true" aria-modal="false">
 		<div class="modal-main-wrapper js-modal-stop">
+			<i class="js-modal-back fa-solid fa-arrow-left"></i>
 			<i class="js-modal-close fa-sharp fa-solid fa-xmark"></i>
 			<div class="photoGallery">
 				<h2>Galerie Photo</i></h2>
 				<div class="showGallery">
-					
 				</div>
 				<hr>
 				<button class="addPhoto">Ajouter une photo</button>
 			</div>
 			<div class="addPhoto hidden">
 				<h2>Ajout Photo</h2>
-				<div class="modifyingGallery">
+				<div class="modifyGallery">
 				</div>
 				<hr>
-				<button class="addPhoto">Ajouter une photo</button>
+				
 			</div>
+			<p class="modal-message"></p>
 		</div>
 	</aside>
 
@@ -109,15 +110,6 @@
 			<div>
 				<button id="yes-button-delete">Oui</button>
 				<button class="js-modal-close">Non</button>
-			</div>
-		</div>
-	</aside>
-
-	<aside id="modal-logout-forced" class="hidden" aria-modal="false" aria-hidden="true">
-		<div class="modal-logout-forced-wrapper js-modal-stop">
-			<p>Session expirée, vous devez vous reconnecter</p>
-			<div>
-				<button id="ok-logout">OK</button>
 			</div>
 		</div>
 	</aside>

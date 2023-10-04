@@ -3,33 +3,36 @@
  * Le bouton "non" est géré avec la fonction "closeModal"
  */
 
-// const { validate } = require("json-schema")
 
 /**
- * Fonction Ouvrir une boite modale
- * @param {*} event 
+ * Fonction Ouvrir une page modale
+ * @param {*} modal Contenu de la page modale
  */
 function openModal (modal) {
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
     document.querySelector('body').classList.add('no-scroll')
-    if (modal.id === "modal-logout") modalLogout()
+    if (modal.id === "modal-logout") logout()
     if (modal.id === "modal-main")  modalBackOffice()
     if (modal.id !== "modal-logout-forced") modal.addEventListener("click", () => closeModal(modal))
-    if (modal.querySelector(".js-modal-close")) modal.querySelector(".js-modal-close").addEventListener("click", () => closeModal(modal))
+    if (modal.querySelector(".js-modal-close")) modal.querySelector(".js-modal-close").addEventListener("click", () => { 
+        closeModal(modal)
+        let deleteOk = document.querySelector(".modal-message")
+        deleteOk.innerText = ""
+    })
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
 } 
 
 /**
  * Fermer une Boite modale
- * @param {*} event 
+ * @param {*} modal Contenu de la page modale
  * @returns 
  */
 function closeModal (modal) {
     if (modal === null) return
-    // event.preventDefault()
     modal.classList.add("hidden")
+    document.querySelector('body').classList.remove('no-scroll')
     modal.setAttribute("aria-hidden", true)
     modal.setAttribute("aria-modal", false)
     modal.removeEventListener("click", () => openModal(modal))
@@ -44,7 +47,7 @@ const stopPropagation = function (event) {
     event.stopPropagation()
 }
 
-function modalLogout() {
+function logout() {
     const answerLogoutButtons = document.getElementById("yes-button-logout")
     answerLogoutButtons.addEventListener("click", () => {
         window.sessionStorage.removeItem("token")
@@ -54,6 +57,9 @@ function modalLogout() {
 
 /**
  * Fonction pour effacer un projet
+ * @param {workid} workid Id du projet a effacer
+ * @param {*} modal contenu de la modale a afficher
+ * @return
  */
 function modalWorkDelete(workid, modal) {
     const answerWorkDeleteButtons = document.getElementById("yes-button-delete")
@@ -63,21 +69,27 @@ function modalWorkDelete(workid, modal) {
                 method: "DELETE",
                 headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token"))}
             }) 
-
-            console.log(answer)
+            if (answer.ok) {
+                closeModal(modal)
+                let deleteOk = document.querySelector(".modal-message")
+                deleteOk.style.color = "#1D6154"
+                deleteOk.innerText = "Projet supprimé avec succès"
+                openModal(modalMain)
+                return
+            }
             if (answer.status === 401) { // Si autorisation refusée (token expiré)
                 closeModal(modal)
-                modal = document.getElementById("modal-logout-forced")
-                openModal(modal)
+                openModal(modalLogoutForced)
                 document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
               }
-            if (answer.status === 404 || answer.status === 500) {
-            throw new Error('Opération impossible') 
+            if (answer.status === 404 || answer.status === 500) { // si erreur coté API
+                let deleteOk = document.querySelector(".modal-message")
+                deleteOk.style.color = "#1D6154"
+                deleteOk.innerText = `Opération impossible - erreur ${answer.status}`
+                throw new Error(`Opération impossible - erreur ${answer.status}`)
             }
-
         } catch (error) {
             console.log(error)
-  
         }
     })
 }
@@ -89,13 +101,18 @@ async function modalBackOffice() {
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
     const showGallery = document.querySelector(".showGallery")
     showGallery.innerHTML = ""
-    const modalMain = document.querySelector("#modal-main")
+    // const modalMain = document.querySelector("#modal-main")
     modalMain.classList.remove('hidden')
     modalMain.setAttribute("aria-modal", "true")
     document.querySelector('body').classList.add('no-scroll')
     showGalleryFunction(works, showGallery)
 }
 
+/**
+ * 
+ * @param {*} works Liste des projets
+ * @param {*} showGallery Contenu de la page modale principale
+ */
 async function showGalleryFunction(works, showGallery) {
     // Affichage de la gallerie 
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
@@ -115,18 +132,20 @@ async function showGalleryFunction(works, showGallery) {
         trashIconLink.appendChild(trashIcon)
         figureTag.appendChild(imageElement) // Affichage les nouveaux elements
         figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
-        showGallery.appendChild(figureTag)
-        
+        showGallery.appendChild(figureTag)   
     }
+
     // test des poubelles
     showGallery.querySelectorAll('.js-bins-modal').forEach(a => {
         a.addEventListener('click', (event) => {
-            modal = document.getElementById("modal-validateDelete")
+            modal = modalValidateDelete
             openModal(modal)
             let deleteId = ""
             deleteId = event.target.parentNode.dataset.id
             modalWorkDelete(deleteId, modal)
         })
     })
-    
+
+    // test Ajout Photo
+    showGallery.querySelector('AddPhoto').addEventListener('click',  )
 }

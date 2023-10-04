@@ -23,8 +23,6 @@ if (tokenSession) {
 
 showWorks(worksFiltered)
 
-const modalMain = document.getElementById("modal-main")
-
 // Listener pour les boutons categories 
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
@@ -47,40 +45,5 @@ document.querySelectorAll('.js-modal').forEach(a => {
     openModal(modal)
     })
 })
-
-
-/*
-
-//Listener bouton modifier
-
-modifierButton.addEventListener("click", async () => {
-    works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-    const showGallery = document.querySelector(".showGallery")
-    showGallery.innerHTML = ""
-    // const modalMain = document.querySelector(".modal-main")
-    modalMain.classList.remove('hidden')
-    modalMain.setAttribute("aria-modal", "true")
-    document.querySelector('body').classList.add('no-scroll')
-    // Affichage de la gallerie 
-    for (let i=0; i < works.length; i++) {
-        const figureTag = document.createElement("figure")
-        const imageElement = document.createElement("img")
-        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
-        imageElement.alt = works[i].title // ajout de la balise Alt
-        figureTag.appendChild(imageElement) // Affichage les nouveaux elements
-        showGallery.appendChild(figureTag)
-
-    }
-})
-
-*/
-
-//listener Croix de fermeture de la modale
-// const crossIcon = document.querySelector(".fa-xmark")
-// crossIcon.addEventListener('click', () => {
-//     modalMain.classList.add('hidden')
-//     modalMain.classList.remove('no-scroll')
-//     document.querySelector('body').classList.remove('no-scroll')
-// })
 
 
