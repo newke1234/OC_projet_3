@@ -76,7 +76,7 @@
 		<div class="modal-logout-wrapper js-modal-stop">
 			<p>Voulez-vous vous déconnecter ?</p>
 			<div>
-				<button id="yes-button">Oui</button>
+				<button id="yes-button-logout">Oui</button>
 				<button class="js-modal-close">Non</button>
 			</div>
 		</div>
@@ -107,11 +107,30 @@
 		<div class="modal-validateDelete-wrapper js-modal-stop">
 			<p>Voulez-vous effacer ce projet ?</p>
 			<div>
-				<button id="yes-button">Oui</button>
+				<button id="yes-button-delete">Oui</button>
 				<button class="js-modal-close">Non</button>
 			</div>
 		</div>
-	</div>
+	</aside>
+
+	<aside id="modal-logout-forced" class="hidden" aria-modal="false" aria-hidden="true">
+		<div class="modal-logout-forced-wrapper js-modal-stop">
+			<p>Session expirée, vous devez vous reconnecter</p>
+			<div>
+				<button id="ok-logout">OK</button>
+			</div>
+		</div>
+	</aside>
+
+	<aside id="modal-logout-forced" class="hidden" aria-modal="false" aria-hidden="true">
+		<div class="modal-logout-forced-wrapper js-modal-stop">
+			<p>Session expirée, vous devez vous reconnecter</p>
+			<div>
+				<button id="ok-logout">OK</button>
+			</div>
+		</div>
+	</aside>
+
 </main>
 
 <footer>
