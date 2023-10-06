@@ -1,13 +1,16 @@
 // Récupération des projets du site depuis l"API
 let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
-let categoriesSet = new Set(categories) // Set pour éviter les doublons
-let worksFiltered = works // Tableau des projets filtrée. Liste complète par défaut
+
+// recupération des catégories
+const categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
+const categoriesSet = new Set(categories) // Set pour éviter les doublons
+
+let worksFiltered = works// Tableau des projets filtrée. Liste complète par défaut
 let modal = null
 
 // verifier si un utilisateur est loggué
 let tokenSession = JSON.parse(window.sessionStorage.getItem("token"))
-// tokenSession = ("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY1MTg3NDkzOSwiZXhwIjoxNjUxOTYxMzM5fQ.JGN1p8YIfR-M-5eQ-Ypy6Ima5cKA4VbfL2xMr2MgHm4") // je suis loggué
+
 if (tokenSession) {
     const menuLogout = document.querySelector(".menu-logout")
     const menuLogin = document.querySelector(".menu-login")
@@ -38,12 +41,28 @@ for (let i=0; i <filterCategoryButton.length; i++) {
 }
 
 // Listener pour modales "logout" et "main"
-
 document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click', (event) => {
     modal = document.querySelector(event.target.getAttribute('href'))
+    console.log(modalMain)
     openModal(modal)
     })
+})
+
+// Listener Ajout Photo
+document.querySelector('.addPhotoButton').addEventListener('click', () => {
+    photoGalleryElement.classList.add("hidden")
+    addPhotoGalleryElement.classList.remove("hidden")
+    document.querySelector(".fa-arrow-left").classList.remove("hidden")
+    showGalleryFunction()
+})
+
+// Listener Fleche 
+document.getElementById('arrow').addEventListener('click', () => {
+    photoGalleryElement.classList.remove("hidden")
+    addPhotoGalleryElement.classList.add("hidden")
+    document.querySelector(".fa-arrow-left").classList.add("hidden")
+    showGalleryFunction()
 })
 
 

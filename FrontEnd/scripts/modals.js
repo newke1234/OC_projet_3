@@ -7,13 +7,30 @@ function openModal (modal) {
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
-    document.querySelector('body').classList.add('no-scroll')
-    if (modal.id === "modal-logout") logout()
-    if (modal.id === "modal-main") modalBackOffice()
-    if (modal.id !== "modal-logout-forced") modal.addEventListener("click", () => closeModal(modal))
-    if (modal.querySelector(".js-modal-close")) modal.querySelector(".js-modal-close").addEventListener("click", () => { closeModal(modal) })
-    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
-} 
+    document.querySelector('body').style.overflow = "hidden" // classList.add('no-scroll')
+    console.log(modal)
+    switch (modal.id) {
+        case 'modal-logout':
+            logout()
+            break
+
+        case 'modal-main':
+            showGalleryFunction()
+            break
+
+        default:
+            break
+    }
+    if (modal.id !== "modal-logout-forced") 
+        modal.addEventListener("click", () => closeModal(modal));
+    
+    if (modal.querySelector(".js-modal-close")) {
+        modal.querySelector(".js-modal-close")
+            .addEventListener("click", () => closeModal(modal));
+        modal.querySelector(".js-modal-stop")
+            .addEventListener("click", stopPropagation);
+        } 
+    }
 
 /**
  * Fermer une Boite modale
@@ -24,7 +41,7 @@ function closeModal (modal) {
     if (modal === null) return
     photoGalleryElement.classList.remove("hidden")
     addPhotoGalleryElement.classList.add("hidden")
-    document.querySelector(".fa-arrow-left").classList.add("hidden")
+    document.querySelector(".fa-arrow-left").style.overflow = "auto" //.classList.add("hidden")
     modal.classList.add("hidden")
     document.querySelector('body').classList.remove('no-scroll')
     modal.setAttribute("aria-hidden", true)
@@ -88,27 +105,13 @@ function modalWorkDelete(workid, modal) {
     })
 }
 
-/**
- * Fonction pour afficher la page modale principale (backOffice)
- */
-async function modalBackOffice() {
-    works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+async function showGalleryFunction() {
     const showGallery = document.querySelector(".showGallery")
     showGallery.innerHTML = ""
-    // const modalMain = document.querySelector("#modal-main")
     modalMain.classList.remove('hidden')
     modalMain.setAttribute("aria-modal", "true")
     document.querySelector('body').classList.add('no-scroll')
-    showGalleryFunction(works, showGallery)
-}
-
-/**
- * 
- * @param {*} works Liste des projets
- * @param {*} showGallery Contenu de la page modale principale
- */
-async function showGalleryFunction(works, showGallery) {
-    // Affichage de la gallerie de projets
+    // On récupère les projets via l'Api
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
     for (let i=0; i < works.length; i++) { // Création des balises pour chaque projet
         const figureTag = document.createElement("figure")
@@ -139,13 +142,5 @@ async function showGalleryFunction(works, showGallery) {
             modalWorkDelete(deleteId, modal)
         })
     })
-
-    // Listener Ajout Photo
-    document.querySelector('.addPhotoButton').addEventListener('click', () => {
-        photoGalleryElement.classList.add("hidden")
-        addPhotoGalleryElement.classList.remove("hidden")
-        document.querySelector(".fa-arrow-left").classList.remove("hidden")
-    } )
-
-    // Listener Fleche 
 }
+

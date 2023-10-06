@@ -58,7 +58,6 @@ body {
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	background-color: #FFFEF8;
-	scrollbar-color: rgb(255, 6, 6) green;
 }
 
 .modeEdition {
@@ -507,7 +506,7 @@ hr {
 input[type="file"]
 
 .no-scroll {
-	overflow: hidden;
+	overflow: hidden !important;
 }
 
 .hidden {
