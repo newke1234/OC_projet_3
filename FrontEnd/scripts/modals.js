@@ -1,27 +1,17 @@
 /**
- * Fonction pour  gérer le bouton oui de la modale "logout"
- * Le bouton "non" est géré avec la fonction "closeModal"
- */
-
-
-/**
  * Fonction Ouvrir une page modale
  * @param {*} modal Contenu de la page modale
  */
 function openModal (modal) {
+    document.querySelector(".modal-message").innerText = ""
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
     document.querySelector('body').classList.add('no-scroll')
     if (modal.id === "modal-logout") logout()
-    if (modal.id === "modal-main") {}  modalBackOffice()
+    if (modal.id === "modal-main") modalBackOffice()
     if (modal.id !== "modal-logout-forced") modal.addEventListener("click", () => closeModal(modal))
-    if (modal.querySelector(".js-modal-close")) modal.querySelector(".js-modal-close").addEventListener("click", () => { 
-        let deleteOk = document.querySelector(".modal-message")
-        deleteOk.innerText = "bou"
-        console.log(deleteOk)
-        closeModal(modal)
-    })
+    if (modal.querySelector(".js-modal-close")) modal.querySelector(".js-modal-close").addEventListener("click", () => { closeModal(modal) })
     modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
 } 
 
@@ -32,6 +22,9 @@ function openModal (modal) {
  */
 function closeModal (modal) {
     if (modal === null) return
+    photoGalleryElement.classList.remove("hidden")
+    addPhotoGalleryElement.classList.add("hidden")
+    document.querySelector(".fa-arrow-left").classList.add("hidden")
     modal.classList.add("hidden")
     document.querySelector('body').classList.remove('no-scroll')
     modal.setAttribute("aria-hidden", true)
@@ -117,7 +110,7 @@ async function modalBackOffice() {
 async function showGalleryFunction(works, showGallery) {
     // Affichage de la gallerie de projets
     works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-    for (let i=0; i < works.length; i++) {
+    for (let i=0; i < works.length; i++) { // Création des balises pour chaque projet
         const figureTag = document.createElement("figure")
         const imageElement = document.createElement("img")
         imageElement.src = works[i].imageUrl // ajout de l"url de l"image
@@ -136,7 +129,7 @@ async function showGalleryFunction(works, showGallery) {
         showGallery.appendChild(figureTag)   
     }
 
-    // test des poubelles
+    // Listener poubelles
     showGallery.querySelectorAll('.js-bins-modal').forEach(a => {
         a.addEventListener('click', (event) => {
             modal = modalValidateDelete
@@ -147,13 +140,12 @@ async function showGalleryFunction(works, showGallery) {
         })
     })
 
-    // test Ajout Photo
-    document.querySelector('.addPhoto').addEventListener('click', () => {
-        const photoGalleryElement = document.querySelector(".photoGallery")
+    // Listener Ajout Photo
+    document.querySelector('.addPhotoButton').addEventListener('click', () => {
         photoGalleryElement.classList.add("hidden")
-        const addPhotoGalleryElement = document.querySelector(".addPhotoGallery")
         addPhotoGalleryElement.classList.remove("hidden")
-        console.log(addPhotoGalleryElement)
-
+        document.querySelector(".fa-arrow-left").classList.remove("hidden")
     } )
+
+    // Listener Fleche 
 }

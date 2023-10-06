@@ -146,7 +146,7 @@ a:hover {
 	gap: 10px;
 }
 
-.button-categorie, #modal-logout button, #modal-validateDelete button, #modal-logout-forced button,.addPhoto, .addPhotoValidate{
+.button-categorie, #modal-logout button, #modal-validateDelete button, #modal-logout-forced button,.addPhotoButton, .addPhotoValidate{
 	padding: 9px 15px;
 	background-color: #FFFEF8;
 	font-family: 'Syne';
@@ -160,6 +160,10 @@ a:hover {
 
 .addPhotoValidate:disabled {
 	background-color: lightgray ;
+}
+
+.addPhotoButton {
+	width: 65%;
 }
 
 .button-categorie:hover,#modal-validateDelete button:hover, #modal-logout button:hover, #modal-logout-forced button:hover {
@@ -404,22 +408,23 @@ footer nav ul {
 
 .icons-modal-main {
 	display: flex;
+	justify-content: space-around;
 	width: 100%;
-
 }
 
-.fa-xmark { /* croix de fermeture */
-	display: flex;
-	cursor: pointer;
-	text-align: right;
-
+#cross {/* croix de fermeture */
+	position: relative;
+	left: 16%;
 }
 
-.fa-arrow-left { /* flèche de  retour */
-	display: flex;
+.fa-xmark, .fa-arrow-left {
 	cursor: pointer;
+}
+
+#arrow { /* flèche de  retour */
+	position: relative;
+	right: 16%;
 	font-size: larger;
-	text-align: left;
 }
 
 
@@ -453,7 +458,7 @@ footer nav ul {
 	color: white;
 }
 
-.addPhoto,  .addPhotoValidate {
+.addPhotoButton,  .addPhotoValidate {
 	margin-top: 20px;
 	font-size: 0.8em;
 	background-color: #1D6154;
@@ -464,9 +469,42 @@ footer nav ul {
 hr {
 	display: flex;
 	justify-content: space-around;
-	width: 88%;
+	width: 80%;
 	margin: 10px auto;
 }
+
+.modifyGallery {
+	width: 88%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modifyGallery label {
+	text-align: left;
+	padding: 0;
+	display: inline-block;
+	width: 100%;
+	font-size: smaller;
+
+}
+
+.modifyGallery input{
+	width: 100%;
+
+}
+
+.modifyGallery hr {
+	margin-top: 35px;
+	width: 100%;
+}
+
+.addPhotoValidate {
+	margin: 20px 0;
+	width: 70%;
+}
+
+input[type="file"]
 
 .no-scroll {
 	overflow: hidden;
