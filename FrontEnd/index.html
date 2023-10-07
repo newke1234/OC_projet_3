@@ -101,16 +101,22 @@
 				<button class="addPhotoButton">Ajouter une photo</button>
 			</div>
 			<div class="addPhotoGallery hidden">
-				<h2>Ajout Photo</h2>
-				<form class="modifyGallery formulaire">
-					
-					<input type="file" name="'file" id="file">
+				<form class="modifyGallery">
+					<h2>Ajout Photo</h2>
+					<div id="image-preview" class="hidden"></div>
+					<div id="insertFile">
+						<i class="fa-regular fa-image"></i>
+						<input type="file" name="file-upload" id="file-upload" accept=".jpg, .png">
+						<div id="photoUpload">+ Ajouter photo</div>
+						<p>jpg, png : 4mo max</p>
+					</div>
 					<label for="title">Titre</label>
 					<input type="text" name="title" id="title">
 					<label for="category">Catégorie</label>
-					<input type="text" name="category" id="category">
+					<select name="category" id="category">
+						
 					<hr>
-					<button class="addPhotoValidate" disabled>Valider</button>
+					<input type="submit" class="addPhotoValidate" value="Valider" disabled>
 				</form>
 			</div>
 			<p class="modal-message"></p>

@@ -3,6 +3,10 @@
    License: none (public domain)
 */
 
+* {
+	box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -22,6 +26,7 @@ time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
+
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -49,6 +54,7 @@ table {
 }
 /** end reset css**/
 body {
+	
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -145,7 +151,7 @@ a:hover {
 	gap: 10px;
 }
 
-.button-categorie, #modal-logout button, #modal-validateDelete button, #modal-logout-forced button,.addPhotoButton, .addPhotoValidate{
+.button-categorie, #modal-logout button, #modal-validateDelete button, #modal-logout-forced button,.addPhotoButton {
 	padding: 9px 15px;
 	background-color: #FFFEF8;
 	font-family: 'Syne';
@@ -241,11 +247,8 @@ a:hover {
 	flex-direction: column;
 	width: 50%;
 	margin: auto;
-	
-}
-.formulaire {
 	text-align: center;
-
+	
 }
 .formulaire h2 {
 	margin-bottom: 20px;
@@ -295,7 +298,7 @@ a:hover {
 	color: #B1663C;
 }
 
-input[type="submit"]{
+input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
@@ -314,7 +317,7 @@ input[type="submit"]{
 }
 
 .modal-message {
-	
+	font-size: smaller;
 	height: 10px;
 }
 
@@ -377,7 +380,6 @@ footer nav ul {
 .modal-main-wrapper i {
 	margin-bottom: 25px;
 	width: 100%;
-	/* text-align:center; */
 }
 
 .modal-logout-forced-wrapper {
@@ -390,10 +392,15 @@ footer nav ul {
 	text-align: center;
 }
 
+.photoGallery {
+	width: 75%;
+}
+
 .showGallery {
 	display: grid;
-	grid-template-columns: 20% 20% 20% 20% 20%;
-	padding: 50px;
+	width: 100%;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	padding: 50px 0;
 	column-gap: 10px;
 	row-gap: 30px; 
 	justify-content: space-around;
@@ -426,11 +433,6 @@ footer nav ul {
 	font-size: larger;
 }
 
-
-.photoGallery, .addPhotoGallery {
-	padding: 0;
-}
-
 .fa-trash-can {
 	display: flex;
 	justify-content: center;
@@ -446,10 +448,10 @@ footer nav ul {
 	position: relative;
 	border-radius: 3px;
 	top: -80%;
-	left: 65%;
-	width: 15px;
-	height: 15px;
-	padding: 3px;
+	left: 70%;
+	width: 20px;
+	height: 20px;
+	padding: 2px 1px;
 	background-color: black;
 	cursor:pointer;
 	font-size: 13px;
@@ -465,32 +467,40 @@ footer nav ul {
 	padding: 10px 50px;
 }
 
-hr {
-	display: flex;
-	justify-content: space-around;
-	width: 80%;
-	margin: 10px auto;
+.addPhotoGallery {
+	width: 100%;
 }
 
 .modifyGallery {
-	width: 88%;
+	width: 75%;
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
 	align-items: center;
+	margin: auto;
+	/* margin-top: 50px; */
+}
+
+.modifyGallery h2 {
+	margin-bottom: 40px;
 }
 
 .modifyGallery label {
 	text-align: left;
-	padding: 0;
+	padding-left: -25px !important;
 	display: inline-block;
 	width: 100%;
 	font-size: smaller;
-
+	margin: 2em 0 0.5em 0;
 }
 
 .modifyGallery input{
 	width: 100%;
-
+	border: none;
+	height: 50px;
+	padding: 0 10px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
 .modifyGallery hr {
@@ -500,10 +510,73 @@ hr {
 
 .addPhotoValidate {
 	margin: 20px 0;
-	width: 70%;
+	height: 40px !important;
+	width: 70% !important;
+	font-size: 0.9em !important;
 }
 
-input[type="file"]
+#insertFile, #image-preview {
+	width: 100%;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color:rgba(172, 196, 199, 0.4);
+	border-radius: 5px;
+}
+
+select {
+	width: 100%;
+	border: none;
+	height: 50px;
+	padding: 0 10px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#insertFile p {
+	margin-top: 12px;
+	font-size: 0.7em;
+}
+
+#image-preview img {
+	height: 200px;
+	width: 100%;
+	object-fit: scale-down;
+	cursor: pointer;
+}
+
+.fa-image {
+	margin-bottom: 8px !important;
+	margin-top: 30px;
+	color:rgba(181, 195, 197, 0.5);
+	font-size: 80px;
+}
+
+input::file-selector-button {
+	display: none;
+}
+
+#photoUpload {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	width: 50%;
+	height: 36px;
+	background-color: rgba(181, 195, 197, 0.5);
+	font-family: 'Work Sans';
+	font-size: 1em;
+	color: rgb(89, 102, 104);
+	border: none;
+	border-radius: 60px;
+	cursor: pointer;
+}
+
+input[type="file"] {
+	display: none;
+}
 
 .no-scroll {
 	overflow: hidden !important;
