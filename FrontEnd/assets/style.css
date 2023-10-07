@@ -530,9 +530,16 @@ select {
 	border: none;
 	height: 50px;
 	padding: 0 10px;
-	font-size: 1.2em;
+	font-family: 'Work Sans';
+	font-size: 0.8em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	color: rgba(0,0,0,.8)
+}
+
+option {
+	font-size: 1em;
+	color: rgba(0,0,0,.8)
 }
 
 #insertFile p {
@@ -556,6 +563,12 @@ select {
 
 input::file-selector-button {
 	display: none;
+}
+
+#title {
+	font-family: 'Work Sans';
+	font-size: 0.8em;
+	color: rgba(0,0,0,.8)
 }
 
 #photoUpload {

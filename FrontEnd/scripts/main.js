@@ -53,8 +53,18 @@ document.querySelector('.addPhotoButton').addEventListener('click', () => {
     photoGalleryElement.classList.add("hidden")
     addPhotoGalleryElement.classList.remove("hidden")
     document.querySelector(".fa-arrow-left").classList.remove("hidden")
-    
     showGalleryFunction()
+
+    // Creatioin du menu déroulant pour les catégories disponibles
+    const selectTag = document.querySelector('select')
+    selectTag.innerHTML = "<option value='' default></option>"
+    categoriesSet.forEach(item => { 
+        let selectOption = document.createElement('option')
+        selectOption.setAttribute("value", item.name)
+        selectOption.setAttribute("data-catID", item.id)
+        selectOption.innerText = item.name
+        selectTag.appendChild(selectOption)
+    })
 })
 
 // Listener Fleche 
