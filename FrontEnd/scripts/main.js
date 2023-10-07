@@ -65,4 +65,36 @@ document.getElementById('arrow').addEventListener('click', () => {
     showGalleryFunction()
 })
 
-
+// Listener bouton Uplod image
+const photoUploadElement = document.getElementById("file-upload")
+const insertFileElement = document.getElementById("insertFile")
+insertFileElement.addEventListener('click', (event) => { 
+    // event.preventDefault()
+    photoUploadElement.click()})
+    photoUploadElement.addEventListener('change', (event) => {
+        const selectedFile = event.target.files[0]; // Le fichier sélectionné par l'utilisateur
+        if (selectedFile) {
+            // Vous pouvez maintenant accéder aux propriétés du fichier, par exemple :
+            const fileName = selectedFile.name; // Nom du fichier
+            const fileSize = selectedFile.size; // Taille du fichier en octets
+            const fileType = selectedFile.type; // Type MIME du fichier (par exemple, image/jpeg)
+            console.log(fileType)
+    
+            // Vous pouvez également prévisualiser l'image si elle est une image (par exemple, pour afficher une miniature)
+            if (fileType.startsWith("image/")) {
+                const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    insertFileElement.innerHTML = ""
+                    let insertFileElementIMG = document.createElement('img')
+                    insertFileElement.appendChild(insertFileElementIMG)
+                    insertFileElementIMG.setAttribute("src", "")
+                    const imagePreview = insertFileElementIMG; 
+                    console.log(imagePreview)
+                    imagePreview.src = e.target.result; // Affectez la source de l'image à l'élément d'aperçu
+                };
+                fileReader.readAsDataURL(selectedFile);
+            }
+    
+            // Vous pouvez maintenant traiter le fichier comme vous le souhaitez (par exemple, l'envoyer au serveur).
+        }
+    });
