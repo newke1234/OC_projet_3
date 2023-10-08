@@ -529,7 +529,7 @@ select {
 	width: 100%;
 	border: none;
 	height: 50px;
-	padding: 0 10px;
+	padding: 0 5px;
 	font-family: 'Work Sans';
 	font-size: 0.8em;
 	border: none;
@@ -565,7 +565,7 @@ input::file-selector-button {
 	display: none;
 }
 
-#title {
+#titleNewPhoto {
 	font-family: 'Work Sans';
 	font-size: 0.8em;
 	color: rgba(0,0,0,.8)

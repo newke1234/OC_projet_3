@@ -144,49 +144,78 @@ async function showGalleryFunction() {
     })
 }
 
-
+/**
+ * Fonction pour charger une image et la vérifier
+ * @param {*} event 
+ * @param {*} insertFileElement 
+ * @returns 
+ */
 function addPhotoFunction (event, insertFileElement) {
     // const insertFileElementBase = insertFileElement
-    const errorMessagePhoto = document.querySelector(".modal-message")
-    const selectedFile = event.target.files[0]; // Le fichier sélectionné par l'utilisateur
+    let errorMessagePhoto = document.querySelector(".modal-message")
+    let selectedFile = event.target.files[0]; // Le fichier sélectionné par l'utilisateur
+    console.log(errorMessagePhoto)
     let imagePreviewElement = document.getElementById("image-preview")
+    let imagePreviewElementIMG = ""
 
-        if (selectedFile) {
+    if (selectedFile) {
 
-            // Vous pouvez maintenant accéder aux propriétés du fichier, par exemple :
-            const fileName = selectedFile.name; // Nom du fichier
-            const fileSize = selectedFile.size; // Taille du fichier en octets
-            const fileType = selectedFile.type; // Type MIME du fichier
-               
-            // Tester si l'image est une image jpeg ou png et si elle peses + de 4mo
-            if (fileType.startsWith("image/jpeg") || fileType.startsWith("image/png")) {
-                if (fileSize > 4000000) {
-                    errorMessagePhoto.style.color = "red"
-                    errorMessagePhoto.innerText = "La taille du fichier ne doit pas excéder 4 mo"
-                    imagePreviewElement.classList.add("hidden")
-                    insertFileElement.classList.remove("hidden")
-                    return
-                } else {
-                    errorMessagePhoto.innerText = ""
-                    const fileReader = new FileReader();
-                    fileReader.onload = (e) => {
-                        imagePreviewElement.innerHTML = ""
-                        let imagePreviewElementIMG = ""
-                        imagePreviewElementIMG = document.createElement('img')
-                        imagePreviewElementIMG.setAttribute("src", "")
-                        imagePreviewElement.appendChild(imagePreviewElementIMG)
-                        imagePreviewElementIMG.src = e.target.result; // Affectez la source de l'image à l'élément d'aperçu
-                        imagePreviewElement.classList.remove("hidden")
-                        insertFileElement.classList.add("hidden")
-                    }
-                fileReader.readAsDataURL(selectedFile);
-                }
-            } else {
+        // Accéder aux propriétés du fichier :
+        const fileName = selectedFile.name; // Nom du fichier
+        const fileSize = selectedFile.size; // Taille du fichier en octets
+        const fileType = selectedFile.type; // Type MIME du fichier
+            
+        // Tester si l'image est une image jpeg ou png et si elle peses + de 4mo
+        if (fileType.startsWith("image/jpeg") || fileType.startsWith("image/png")) {
+            if (fileSize > 4000000) {
                 errorMessagePhoto.style.color = "red"
-                errorMessagePhoto.innerText = "Vous devez selectionner un fichier avec une extension .jpg ou .png"
+                errorMessagePhoto.innerText = "La taille du fichier ne doit pas excéder 4 mo"
+                selectedFile = ""
+                imagePreviewElement.innerHTML = ""
+                imagePreviewElementIMG = ""
+                imagePreviewElement.classList.add("hidden")
+                insertFileElement.classList.remove("hidden")
                 return
+            } else {
+                errorMessagePhoto.innerText = ""
+                const fileReader = new FileReader();
+                fileReader.onload = (e) => {
+                    imagePreviewElement.innerHTML = ""
+                    imagePreviewElementIMG = ""
+                    imagePreviewElementIMG = document.createElement('img')
+                    imagePreviewElementIMG.setAttribute("src", "")
+                    imagePreviewElement.appendChild(imagePreviewElementIMG)
+                    imagePreviewElementIMG.src = e.target.result; // Affectez la source de l'image à l'élément d'aperçu
+                    imagePreviewElement.classList.remove("hidden")
+                    insertFileElement.classList.add("hidden")
+                }
+            fileReader.readAsDataURL(selectedFile);
             }
-    
-            // Vous pouvez maintenant traiter le fichier comme vous le souhaitez (par exemple, l'envoyer au serveur).
+        } else {
+            errorMessagePhoto.style.color = "red"
+            errorMessagePhoto.innerText = "Vous devez selectionner un fichier avec une extension .jpg ou .png"
+            return
         }
+
+    }
+}
+
+/**
+ * Fonction pour activer le boputon de validation d'un nouveau projet
+ * Vérifie que tous les champs sont remplis
+ */
+function formAddProjetCheck () {
+    document.querySelector(".addPhotoValidate").disabled = true
+    if (document.getElementById("image-preview").innerHTML) {
+        let imageOK = true
+        if (document.getElementById("titleNewPhoto").value) {
+            let titleOK = true
+            if (document.querySelector("select").value) {
+                let categoryOK = true
+                if (imageOK && titleOK && categoryOK) {
+                    document.querySelector(".addPhotoValidate").disabled = false
+                }
+            }
+        } 
+    } 
 }
