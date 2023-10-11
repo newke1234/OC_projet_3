@@ -1,14 +1,15 @@
+
 /**
  * Fonction Ouvrir une page modale
  * @param {*} modal Contenu de la page modale
  */
-function openModal (modal) {
-    document.querySelector(".modal-message").innerText = ""
+async function openModal (modal) {
+    
+    // document.querySelector(".modal-message").innerText = ""
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
-    document.querySelector('body').style.overflow = "hidden" // classList.add('no-scroll')
-    console.log(modal)
+    document.querySelector('body').classList.add('no-scroll') // classList.add('no-scroll')
     switch (modal.id) {
         case 'modal-logout':
             logout()
@@ -29,8 +30,9 @@ function openModal (modal) {
             .addEventListener("click", () => closeModal(modal));
         modal.querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
-        } 
-    }
+    } 
+    
+}
 
 /**
  * Fermer une Boite modale
@@ -66,13 +68,111 @@ function logout() {
     })
 }
 
+
+/**
+ * Fonction pour poster un nouveau projet dans la db
+ * @param {*} formulaire 
+ * @returns 
+ */
+async function postNewWork (formulaire) {
+    const formDataWork = new FormData(formulaire);
+
+    const imageData = formDataWork.get('file-upload')
+    const titleData = formDataWork.get('title')
+    const categoryData = formDataWork.get("category")
+
+    // Nouvel objet FormData pour stocker uniquement les données demandées pour la DB
+    const newWorkData = new FormData();
+    newWorkData.append('image', imageData);
+    newWorkData.append('title', titleData);
+    newWorkData.append('category', categoryData);
+
+    try {
+        let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
+            method: "POST",
+            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")),
+                    // "accept" : "application/json" 
+                },
+            body:  newWorkData
+
+        }) 
+        if (answer.ok) {
+            closeModal(modalMain)
+            document.querySelector(".button-modifier").click()
+            document.getElementById(".cross").click
+            let addProjectOk = document.querySelector(".modal-message")
+            addProjectOk.style.color = "#1D6154"
+            addProjectOk.innerText = "Projet ajouté avec succès"
+            addProjectOk.classList.add()
+
+            return
+        }
+        if (answer.status === 401) { // Si autorisation refusée (token expiré)
+            closeModal(modal)
+            openModal(modalLogoutForced)
+            document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
+          }
+        if (answer.status === 404 || answer.status === 500) { // si erreur coté API
+            let deleteOk = document.querySelector(".modal-message")
+            deleteOk.style.color = "red"
+            deleteOk.innerText = `Opération impossible - erreur ${answer.status}`
+            throw new Error(`Opération impossible - erreur ${answer.status}`)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+/**
+ * Pour afficher les projets dans la page modale-main
+ */
+async function showGalleryFunction() {
+
+    modalMain.classList.remove('hidden')
+    modalMain.setAttribute("aria-modal", "true")
+    document.querySelector('body').classList.add('no-scroll')
+    // On récupère les projets via l'Api
+    works = null
+    works = await getWorks()
+    const showGallery = document.querySelector(".showGallery")
+    showGallery.innerHTML = ""
+    for (let i=0; i < works.length; i++) { // Création des balises pour chaque projet
+        const figureTag = document.createElement("figure")
+        const imageElement = document.createElement("img")
+        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
+        imageElement.alt = works[i].title // ajout de la balise Alt
+        const trashIconLink = document.createElement("p")
+        trashIconLink.classList.add("trash")
+        const trashIcon = document.createElement("i")
+        trashIconLink.setAttribute("data-id", works[i].id)
+        trashIcon.classList.add("fa-regular")
+        trashIcon.classList.add("fa-trash-can")
+        trashIcon.innerHTML = ""
+        trashIcon.addEventListener("click", (event) => handleTrashIconClick(event));
+        trashIconLink.appendChild(trashIcon)
+        figureTag.appendChild(imageElement) // Affichage les nouveaux elements
+        figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
+        showGallery.appendChild(figureTag)
+    }
+    
+}
+
+// Fonction de gestionnaire pour le clic sur l'icône de poubelle
+function handleTrashIconClick(event) {
+    modal = modalValidateDelete;
+    openModal(modal);
+    let deleteId = event.target.parentNode.dataset.id;
+    modalWorkDelete(deleteId, modal);
+}
+
+
 /**
  * Fonction pour effacer un projet
  * @param {workid} workid Id du projet a effacer
  * @param {*} modal contenu de la modale a afficher
  * @return
  */
-function modalWorkDelete(workid, modal) {
+async function modalWorkDelete(workid, modal) {
     const answerWorkDeleteButtons = document.getElementById("yes-button-delete")
     answerWorkDeleteButtons.addEventListener('click', async  () => {
         try {
@@ -83,10 +183,12 @@ function modalWorkDelete(workid, modal) {
             if (answer.ok) {
                 closeModal(modal)
                 let deleteOk = document.querySelector(".modal-message")
+                deleteOk.classList.remove("hidden")
                 deleteOk.style.color = "#1D6154"
                 deleteOk.innerText = "Projet supprimé avec succès"
-                openModal(modalMain)
-                return
+                // document.querySelector(".button-modifier").click()
+                showGalleryFunction()
+
             }
             if (answer.status === 401) { // Si autorisation refusée (token expiré)
                 closeModal(modal)
@@ -105,44 +207,8 @@ function modalWorkDelete(workid, modal) {
     })
 }
 
-async function showGalleryFunction() {
-    const showGallery = document.querySelector(".showGallery")
-    showGallery.innerHTML = ""
-    modalMain.classList.remove('hidden')
-    modalMain.setAttribute("aria-modal", "true")
-    document.querySelector('body').classList.add('no-scroll')
-    // On récupère les projets via l'Api
-    works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
-    for (let i=0; i < works.length; i++) { // Création des balises pour chaque projet
-        const figureTag = document.createElement("figure")
-        const imageElement = document.createElement("img")
-        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
-        imageElement.alt = works[i].title // ajout de la balise Alt
-        const trashIconLink = document.createElement("a")
-        trashIconLink.classList.add("trash")
-        trashIconLink.classList.add("js-bins-modal")
-        const trashIcon = document.createElement("i")
-        trashIconLink.setAttribute("data-id", works[i].id)
-        trashIcon.classList.add("fa-regular")
-        trashIcon.classList.add("fa-trash-can")
-        trashIcon.innerHTML = ""
-        trashIconLink.appendChild(trashIcon)
-        figureTag.appendChild(imageElement) // Affichage les nouveaux elements
-        figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
-        showGallery.appendChild(figureTag)   
-    }
 
-    // Listener poubelles
-    showGallery.querySelectorAll('.js-bins-modal').forEach(a => {
-        a.addEventListener('click', (event) => {
-            modal = modalValidateDelete
-            openModal(modal)
-            let deleteId = ""
-            deleteId = event.target.parentNode.dataset.id
-            modalWorkDelete(deleteId, modal)
-        })
-    })
-}
+
 
 /**
  * Fonction pour charger une image et la vérifier
@@ -188,6 +254,7 @@ function addPhotoFunction (event, insertFileElement) {
                     imagePreviewElementIMG.src = e.target.result; // Affectez la source de l'image à l'élément d'aperçu
                     imagePreviewElement.classList.remove("hidden")
                     insertFileElement.classList.add("hidden")
+                    return selectedFile
                 }
             fileReader.readAsDataURL(selectedFile);
             }
@@ -201,7 +268,7 @@ function addPhotoFunction (event, insertFileElement) {
 }
 
 /**
- * Fonction pour activer le boputon de validation d'un nouveau projet
+ * Fonction pour activer le bouton de validation d'un nouveau projet
  * Vérifie que tous les champs sont remplis
  */
 function formAddProjetCheck () {

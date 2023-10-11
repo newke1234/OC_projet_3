@@ -41,10 +41,16 @@ for (let i=0; i <filterCategoryButton.length; i++) {
 
 // Listener pour modales "logout" et "main"
 document.querySelectorAll('.js-modal').forEach(a => {
-    a.addEventListener('click', (event) => {
-    modal = document.querySelector(event.target.getAttribute('href'))
-    openModal(modal)
-    })
+    a.addEventListener('click', async (event) => {
+        modal = document.querySelector(event.target.getAttribute('href'))
+        openModal(modal)
+        document.querySelector(".fa-arrow-left").classList.add("hidden")
+        // await showGalleryFunction()
+        // const trashIconElements = document.querySelectorAll('.trash')
+        // trashIconElements.forEach (p => {
+        //     p.addEventListener("click", (event) => handleTrashIconClick(event));
+        // })
+    })  
 })
 
 // Listener Ajout Photo
@@ -95,8 +101,6 @@ const callback = function(mutationsList, observer) {
     }
 }
 
-
-
 const observer = new MutationObserver(callback); // Créez un observateur avec la fonction de rappel
 const config = { childList: true, subtree: true };// Configurez les options de l'observateur pour observer les modifications de contenu
 observer.observe(targetElement, config); // Attachez l'observateur à l'élément cible et commencez à observer
@@ -126,7 +130,8 @@ insertFileElement.addEventListener('click', () => {
         addPhotoFunction (event, insertFileElement)
     })
 });
-// Listener bouton Upload image quand une image est déjà chargée et afficher
+
+// Listener bouton Upload image quand une image est déjà chargée et affichée
 imagePreviewElementDiv.addEventListener('click', () => { 
     photoUploadElement.click()
     photoUploadElement.addEventListener('change', (event) => {
@@ -134,3 +139,10 @@ imagePreviewElementDiv.addEventListener('click', () => {
     })
 });
 
+// Listener bouton "Valider" pour method POST des infos du nouveau projet
+const formulaire = document.getElementById("modifyGallery")
+formulaire.addEventListener('submit', function (event) {
+    event.preventDefault(); 
+    postNewWork(formulaire)
+
+});
