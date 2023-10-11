@@ -31,7 +31,6 @@ async function openModal (modal) {
         modal.querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
     } 
-    
 }
 
 /**
@@ -68,6 +67,39 @@ function logout() {
     })
 }
 
+/**
+ * Pour afficher les projets dans la page modale-main
+ */
+async function showGalleryFunction() {
+
+    modalMain.classList.remove('hidden')
+    modalMain.setAttribute("aria-modal", "true")
+    document.querySelector('body').classList.add('no-scroll')
+    // On récupère les projets via l'Api
+    works = null
+    works = await getWorks()
+    const showGallery = document.querySelector(".showGallery")
+    showGallery.innerHTML = ""
+    for (let i=0; i < works.length; i++) { // Création des balises pour chaque projet
+        const figureTag = document.createElement("figure")
+        const imageElement = document.createElement("img")
+        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
+        imageElement.alt = works[i].title // ajout de la balise Alt
+        const trashIconLink = document.createElement("p")
+        trashIconLink.classList.add("trash")
+        const trashIcon = document.createElement("i")
+        trashIconLink.setAttribute("data-id", works[i].id)
+        trashIcon.classList.add("fa-regular")
+        trashIcon.classList.add("fa-trash-can")
+        trashIcon.innerHTML = ""
+        trashIcon.addEventListener("click", (event) => handleTrashIconClick(event));
+        trashIconLink.appendChild(trashIcon)
+        figureTag.appendChild(imageElement) // Affichage les nouveaux elements
+        figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
+        showGallery.appendChild(figureTag)
+    }
+    
+}
 
 /**
  * Fonction pour poster un nouveau projet dans la db
@@ -123,40 +155,6 @@ async function postNewWork (formulaire) {
     }
 }
 
-/**
- * Pour afficher les projets dans la page modale-main
- */
-async function showGalleryFunction() {
-
-    modalMain.classList.remove('hidden')
-    modalMain.setAttribute("aria-modal", "true")
-    document.querySelector('body').classList.add('no-scroll')
-    // On récupère les projets via l'Api
-    works = null
-    works = await getWorks()
-    const showGallery = document.querySelector(".showGallery")
-    showGallery.innerHTML = ""
-    for (let i=0; i < works.length; i++) { // Création des balises pour chaque projet
-        const figureTag = document.createElement("figure")
-        const imageElement = document.createElement("img")
-        imageElement.src = works[i].imageUrl // ajout de l"url de l"image
-        imageElement.alt = works[i].title // ajout de la balise Alt
-        const trashIconLink = document.createElement("p")
-        trashIconLink.classList.add("trash")
-        const trashIcon = document.createElement("i")
-        trashIconLink.setAttribute("data-id", works[i].id)
-        trashIcon.classList.add("fa-regular")
-        trashIcon.classList.add("fa-trash-can")
-        trashIcon.innerHTML = ""
-        trashIcon.addEventListener("click", (event) => handleTrashIconClick(event));
-        trashIconLink.appendChild(trashIcon)
-        figureTag.appendChild(imageElement) // Affichage les nouveaux elements
-        figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
-        showGallery.appendChild(figureTag)
-    }
-    
-}
-
 // Fonction de gestionnaire pour le clic sur l'icône de poubelle
 function handleTrashIconClick(event) {
     modal = modalValidateDelete;
@@ -164,7 +162,6 @@ function handleTrashIconClick(event) {
     let deleteId = event.target.parentNode.dataset.id;
     modalWorkDelete(deleteId, modal);
 }
-
 
 /**
  * Fonction pour effacer un projet
@@ -207,9 +204,6 @@ async function modalWorkDelete(workid, modal) {
     })
 }
 
-
-
-
 /**
  * Fonction pour charger une image et la vérifier
  * @param {*} event 
@@ -217,15 +211,12 @@ async function modalWorkDelete(workid, modal) {
  * @returns 
  */
 function addPhotoFunction (event, insertFileElement) {
-    // const insertFileElementBase = insertFileElement
     let errorMessagePhoto = document.querySelector(".modal-message")
     let selectedFile = event.target.files[0]; // Le fichier sélectionné par l'utilisateur
-    console.log(errorMessagePhoto)
     let imagePreviewElement = document.getElementById("image-preview")
     let imagePreviewElementIMG = ""
 
     if (selectedFile) {
-
         // Accéder aux propriétés du fichier :
         const fileName = selectedFile.name; // Nom du fichier
         const fileSize = selectedFile.size; // Taille du fichier en octets
@@ -234,6 +225,7 @@ function addPhotoFunction (event, insertFileElement) {
         // Tester si l'image est une image jpeg ou png et si elle peses + de 4mo
         if (fileType.startsWith("image/jpeg") || fileType.startsWith("image/png")) {
             if (fileSize > 4000000) {
+                document.querySelector(".addPhotoValidate").disabled = true
                 errorMessagePhoto.style.color = "red"
                 errorMessagePhoto.innerText = "La taille du fichier ne doit pas excéder 4 mo"
                 selectedFile = ""
@@ -243,6 +235,7 @@ function addPhotoFunction (event, insertFileElement) {
                 insertFileElement.classList.remove("hidden")
                 return
             } else {
+                // document.querySelector(".addPhotoValidate").disabled = true
                 errorMessagePhoto.innerText = ""
                 const fileReader = new FileReader();
                 fileReader.onload = (e) => {
@@ -254,7 +247,6 @@ function addPhotoFunction (event, insertFileElement) {
                     imagePreviewElementIMG.src = e.target.result; // Affectez la source de l'image à l'élément d'aperçu
                     imagePreviewElement.classList.remove("hidden")
                     insertFileElement.classList.add("hidden")
-                    return selectedFile
                 }
             fileReader.readAsDataURL(selectedFile);
             }
@@ -263,7 +255,6 @@ function addPhotoFunction (event, insertFileElement) {
             errorMessagePhoto.innerText = "Vous devez selectionner un fichier avec une extension .jpg ou .png"
             return
         }
-
     }
 }
 
@@ -272,13 +263,16 @@ function addPhotoFunction (event, insertFileElement) {
  * Vérifie que tous les champs sont remplis
  */
 function formAddProjetCheck () {
+    let imageOK = false
+    let titleOK = false
+    let categoryOK = false
     document.querySelector(".addPhotoValidate").disabled = true
-    if (document.getElementById("image-preview").innerHTML) {
-        let imageOK = true
+    if (document.getElementById("file-upload").value) {
+        imageOK = true
         if (document.getElementById("titleNewPhoto").value) {
-            let titleOK = true
+            titleOK = true
             if (document.querySelector("select").value) {
-                let categoryOK = true
+                categoryOK = true
                 if (imageOK && titleOK && categoryOK) {
                     document.querySelector(".addPhotoValidate").disabled = false
                 }

@@ -53,13 +53,26 @@ document.querySelectorAll('.js-modal').forEach(a => {
     })  
 })
 
-// Listener Ajout Photo
+function resetFileInput(inputElement) {
+    const cloneInput = inputElement.cloneNode(true);
+    inputElement.parentNode.replaceChild(cloneInput, inputElement);
+    return cloneInput;
+  }
+
+// Listener "Ajouter Photo"
 document.querySelector('.addPhotoButton').addEventListener('click', async () => {
     photoGalleryElement.classList.add("hidden")
     addPhotoGalleryElement.classList.remove("hidden")
     document.querySelector(".fa-arrow-left").classList.remove("hidden")
-    showGalleryFunction()
-    document.getElementById("insertFile").classList.remove("hidden")
+ 
+    const photoUploadElement = document.getElementById("file-upload")
+    photoUploadElement.value = null;
+  
+    // const insertFileElement = document.getElementById("insertFile")
+    // const imagePreviewElementDiv = document.getElementById("image-preview")
+
+
+    insertFileElement.classList.remove("hidden")
     document.getElementById("image-preview").classList.add("hidden")
     document.getElementById("image-preview").innerText = ""
     document.querySelector(".modal-message").classList.remove("hidden")
@@ -77,36 +90,38 @@ document.querySelector('.addPhotoButton').addEventListener('click', async () => 
     })
 })
 
+    // Listener bouton Upload image
+const photoUploadElement = document.getElementById("file-upload")
+const insertFileElement = document.getElementById("insertFile")
+const imagePreviewElementDiv = document.getElementById("image-preview")
+insertFileElement.addEventListener('click', () => { 
+    photoUploadElement.value = null;
+    photoUploadElement.click()
+    photoUploadElement.addEventListener('change', (event) => {
+        addPhotoFunction (event, insertFileElement)
+    })
+});
+
+// Listener bouton Upload image quand une image est déjà chargée et affichée
+imagePreviewElementDiv.addEventListener('click', () => { 
+    photoUploadElement.value = null;
+    photoUploadElement.click()
+    photoUploadElement.addEventListener('change', (event) => {
+        addPhotoFunction (event, insertFileElement)
+    })
+});
+
+
+
+
 // Envoi de "Ajout de projet" par bouton valider
     // On vérifie que tous les champs sont actifs pour activer le bouton submit
-document.querySelector('select').addEventListener('change', () => formAddProjetCheck())
-document.getElementById('titleNewPhoto').addEventListener('input', () => formAddProjetCheck())
+document.querySelector("select").addEventListener("change", () => formAddProjetCheck())
+document.getElementById("titleNewPhoto").addEventListener("input", () => formAddProjetCheck())
+photoUploadElement.addEventListener("change", () => {
 
-/**
- * Pour écouter un changement de données dans le champs pour choisir l'image
- */
-
-// Sélectionnez l'élément que vous souhaitez observer
-const targetElement = document.getElementById('image-preview');
-
-// Créez une fonction de rappel à exécuter lorsque le contenu change
-const callback = function(mutationsList, observer) {
-    // Parcourez les mutations (changements)
-    for (let mutation of mutationsList) {
-        // Vérifiez si le type de mutation est une modification de nœud (caractère ou attribut)
-        if (mutation.type === 'childList') {
-            // Le contenu de l'élément a changé, vous pouvez réagir en conséquence ici
-            formAddProjetCheck()
-        }
-    }
-}
-
-const observer = new MutationObserver(callback); // Créez un observateur avec la fonction de rappel
-const config = { childList: true, subtree: true };// Configurez les options de l'observateur pour observer les modifications de contenu
-observer.observe(targetElement, config); // Attachez l'observateur à l'élément cible et commencez à observer
-
-// Pour arrêter d'observer plus tard, vous pouvez utiliser :
-// observer.disconnect();
+ formAddProjetCheck()
+})
 
 
 // Listener Fleche 
@@ -116,33 +131,16 @@ document.getElementById('arrow').addEventListener('click', () => {
     document.querySelector(".modal-message").innerText = ""
     document.querySelector(".modal-message").classList.add("hidden")
     document.querySelector(".fa-arrow-left").classList.add("hidden")
-    observer.disconnect();
+    // observer.disconnect();
     showGalleryFunction()
+    // document.querySelector(".button-modifier").click()
 })
 
-// Listener bouton Upload image
-const photoUploadElement = document.getElementById("file-upload")
-const insertFileElement = document.getElementById("insertFile")
-const imagePreviewElementDiv = document.getElementById("image-preview")
-insertFileElement.addEventListener('click', () => { 
-    photoUploadElement.click()
-    photoUploadElement.addEventListener('change', (event) => {
-        addPhotoFunction (event, insertFileElement)
-    })
-});
 
-// Listener bouton Upload image quand une image est déjà chargée et affichée
-imagePreviewElementDiv.addEventListener('click', () => { 
-    photoUploadElement.click()
-    photoUploadElement.addEventListener('change', (event) => {
-        addPhotoFunction (event, insertFileElement)
-    })
-});
 
 // Listener bouton "Valider" pour method POST des infos du nouveau projet
 const formulaire = document.getElementById("modifyGallery")
 formulaire.addEventListener('submit', function (event) {
     event.preventDefault(); 
     postNewWork(formulaire)
-
 });
