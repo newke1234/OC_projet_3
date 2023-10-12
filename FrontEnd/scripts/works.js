@@ -38,8 +38,10 @@ function showWorks(worksFiltered) {
     }
 }
 
+
 /**
- * Cette fonction affiche les boutons de catégorie
+ * 
+ * @param {*} categories 
  */
 function showFilterButtons(categories) {
     const filtresGallery = document.querySelector(".filtres ul");

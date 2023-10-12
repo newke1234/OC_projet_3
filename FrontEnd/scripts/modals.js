@@ -3,9 +3,9 @@
  * Fonction Ouvrir une page modale
  * @param {*} modal Contenu de la page modale
  */
-async function openModal (modal) {
+function openModal (modal) {
     
-    // document.querySelector(".modal-message").innerText = ""
+    document.querySelector(".modal-message").innerText = ""
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
@@ -28,6 +28,11 @@ async function openModal (modal) {
     if (modal.querySelector(".js-modal-close")) {
         modal.querySelector(".js-modal-close")
             .addEventListener("click", () => closeModal(modal));
+        // modal.querySelector(".js-modal-index")
+        //     .addEventListener("click", () => {
+        //         closeModal(modal);
+        //         window.location.href = "./index.html";
+        //     })
         modal.querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
     } 
@@ -38,17 +43,20 @@ async function openModal (modal) {
  * @param {*} modal Contenu de la page modale
  * @returns 
  */
-function closeModal (modal) {
+async function closeModal (modal) {
     if (modal === null) return
     photoGalleryElement.classList.remove("hidden")
     addPhotoGalleryElement.classList.add("hidden")
-    document.querySelector(".fa-arrow-left").style.overflow = "auto" //.classList.add("hidden")
+    document.querySelector(".fa-arrow-left").style.overflow = "auto"
     modal.classList.add("hidden")
     document.querySelector('body').classList.remove('no-scroll')
     modal.setAttribute("aria-hidden", true)
     modal.setAttribute("aria-modal", false)
     modal.removeEventListener("click", () => openModal(modal))
+    let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+    showWorks(works)
     modal = null
+   
 }
 
 /**
@@ -98,7 +106,6 @@ async function showGalleryFunction() {
         figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
         showGallery.appendChild(figureTag)
     }
-    
 }
 
 /**
@@ -122,21 +129,16 @@ async function postNewWork (formulaire) {
     try {
         let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
             method: "POST",
-            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")),
-                    // "accept" : "application/json" 
-                },
+            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")) },
             body:  newWorkData
-
         }) 
         if (answer.ok) {
             closeModal(modalMain)
-            document.querySelector(".button-modifier").click()
-            document.getElementById(".cross").click
+            document.getElementById("arrow").click()
             let addProjectOk = document.querySelector(".modal-message")
             addProjectOk.style.color = "#1D6154"
-            addProjectOk.innerText = "Projet ajouté avec succès"
+            addProjectOk.innerText = "Photo ajoutée avec succès"
             addProjectOk.classList.add()
-
             return
         }
         if (answer.status === 401) { // Si autorisation refusée (token expiré)
@@ -144,10 +146,10 @@ async function postNewWork (formulaire) {
             openModal(modalLogoutForced)
             document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
           }
-        if (answer.status === 404 || answer.status === 500) { // si erreur coté API
-            let deleteOk = document.querySelector(".modal-message")
-            deleteOk.style.color = "red"
-            deleteOk.innerText = `Opération impossible - erreur ${answer.status}`
+        if (answer.status === 404 || answer.status === 500) { // si erreur coté serveur 
+            let addProjectError = document.querySelector(".modal-message")
+            addProjectError.style.color = "red"
+            addProjectError.innerText = `Opération impossible - erreur ${answer.status}`
             throw new Error(`Opération impossible - erreur ${answer.status}`)
         }
     } catch (error) {
@@ -180,12 +182,9 @@ async function modalWorkDelete(workid, modal) {
             if (answer.ok) {
                 closeModal(modal)
                 let deleteOk = document.querySelector(".modal-message")
-                deleteOk.classList.remove("hidden")
                 deleteOk.style.color = "#1D6154"
                 deleteOk.innerText = "Projet supprimé avec succès"
-                // document.querySelector(".button-modifier").click()
                 showGalleryFunction()
-
             }
             if (answer.status === 401) { // Si autorisation refusée (token expiré)
                 closeModal(modal)
@@ -193,9 +192,9 @@ async function modalWorkDelete(workid, modal) {
                 document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
               }
             if (answer.status === 404 || answer.status === 500) { // si erreur coté API
-                let deleteOk = document.querySelector(".modal-message")
-                deleteOk.style.color = "red"
-                deleteOk.innerText = `Opération impossible - erreur ${answer.status}`
+                let deleteError = document.querySelector(".modal-message")
+                deleteError.style.color = "red"
+                deleteError.innerText = `Opération impossible - erreur ${answer.status}`
                 throw new Error(`Opération impossible - erreur ${answer.status}`)
             }
         } catch (error) {
@@ -235,8 +234,7 @@ function addPhotoFunction (event, insertFileElement) {
                 insertFileElement.classList.remove("hidden")
                 return
             } else {
-                // document.querySelector(".addPhotoValidate").disabled = true
-                errorMessagePhoto.innerText = ""
+                errorMessagePhoto.innerText = " "
                 const fileReader = new FileReader();
                 fileReader.onload = (e) => {
                     imagePreviewElement.innerHTML = ""
@@ -251,8 +249,13 @@ function addPhotoFunction (event, insertFileElement) {
             fileReader.readAsDataURL(selectedFile);
             }
         } else {
+            document.querySelector(".addPhotoValidate").disabled = true
             errorMessagePhoto.style.color = "red"
             errorMessagePhoto.innerText = "Vous devez selectionner un fichier avec une extension .jpg ou .png"
+            imagePreviewElement.innerHTML = ""
+            imagePreviewElementIMG = ""
+            imagePreviewElement.classList.add("hidden")
+            insertFileElement.classList.remove("hidden")
             return
         }
     }
@@ -273,8 +276,11 @@ function formAddProjetCheck () {
             titleOK = true
             if (document.querySelector("select").value) {
                 categoryOK = true
-                if (imageOK && titleOK && categoryOK) {
+                if(document.querySelector(".modal-message").innerText === "") {
+                    messageOK = true
+                    if (imageOK && titleOK && categoryOK && messageOK) {
                     document.querySelector(".addPhotoValidate").disabled = false
+                    }
                 }
             }
         } 

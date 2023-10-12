@@ -41,15 +41,10 @@ for (let i=0; i <filterCategoryButton.length; i++) {
 
 // Listener pour modales "logout" et "main"
 document.querySelectorAll('.js-modal').forEach(a => {
-    a.addEventListener('click', async (event) => {
+    a.addEventListener('click', (event) => {
         modal = document.querySelector(event.target.getAttribute('href'))
         openModal(modal)
         document.querySelector(".fa-arrow-left").classList.add("hidden")
-        // await showGalleryFunction()
-        // const trashIconElements = document.querySelectorAll('.trash')
-        // trashIconElements.forEach (p => {
-        //     p.addEventListener("click", (event) => handleTrashIconClick(event));
-        // })
     })  
 })
 
@@ -64,18 +59,19 @@ document.querySelector('.addPhotoButton').addEventListener('click', async () => 
     photoGalleryElement.classList.add("hidden")
     addPhotoGalleryElement.classList.remove("hidden")
     document.querySelector(".fa-arrow-left").classList.remove("hidden")
- 
+    formAddProjetCheck()
+
+    // Remise à zéro du contenu  de "input type=file"
     const photoUploadElement = document.getElementById("file-upload")
     photoUploadElement.value = null;
-  
-    // const insertFileElement = document.getElementById("insertFile")
-    // const imagePreviewElementDiv = document.getElementById("image-preview")
 
+    //on réinit le message dans "modal-message"
+    document.querySelector(".modal-message").innerText = ""
 
     insertFileElement.classList.remove("hidden")
     document.getElementById("image-preview").classList.add("hidden")
     document.getElementById("image-preview").innerText = ""
-    document.querySelector(".modal-message").classList.remove("hidden")
+
     // Creation du menu déroulant pour les catégories disponibles
     const selectTag = document.querySelector('select')
     selectTag.innerHTML = "<option value='' default></option>"
@@ -118,22 +114,40 @@ imagePreviewElementDiv.addEventListener('click', () => {
     // On vérifie que tous les champs sont actifs pour activer le bouton submit
 document.querySelector("select").addEventListener("change", () => formAddProjetCheck())
 document.getElementById("titleNewPhoto").addEventListener("input", () => formAddProjetCheck())
-photoUploadElement.addEventListener("change", () => {
+photoUploadElement.addEventListener("change", () => formAddProjetCheck())
+// Sélectionnez l'élément que vous souhaitez surveiller
+const elementToObserve = document.querySelector(".modal-message");
 
- formAddProjetCheck()
-})
+{
+    // Créez une fonction de rappel qui sera appelée lorsque des mutations sont détectées
+    const mutationCallback = function (mutationsList, observer) {
+    // Parcourez la liste des mutations
+    for (const mutation of mutationsList) {
+        if (mutation.type === 'childList' || mutation.type === 'characterData') {
+        // Code à exécuter lorsque des mutations sont détectées
+        formAddProjetCheck()
+        }
+    }
+    };
 
+    // Créez un observateur de mutation avec la fonction de rappel
+    const observer = new MutationObserver(mutationCallback);
+
+    // Configurez l'observateur pour surveiller les modifications du contenu de l'élément
+    const config = { childList: true, characterData: true, subtree: true };
+    observer.observe(elementToObserve, config);
+    document.querySelector(".modal-message").addEventListener("input", () => console.log(okdok))
+}
 
 // Listener Fleche 
 document.getElementById('arrow').addEventListener('click', () => {
     photoGalleryElement.classList.remove("hidden")
     addPhotoGalleryElement.classList.add("hidden")
     document.querySelector(".modal-message").innerText = ""
-    document.querySelector(".modal-message").classList.add("hidden")
+    // document.querySelector(".modal-message").classList.add("hidden")
     document.querySelector(".fa-arrow-left").classList.add("hidden")
-    // observer.disconnect();
     showGalleryFunction()
-    // document.querySelector(".button-modifier").click()
+
 })
 
 
