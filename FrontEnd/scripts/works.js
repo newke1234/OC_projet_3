@@ -1,21 +1,23 @@
-
+/**
+ * Pour récuperer les projets sur la base de données
+ * @returns 
+ */
 async function getWorks () {
     try {
         const response = await fetch("http://localhost:" + apiPort + "/api/works");
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error(`Erreur HTTP Status: ${response.status}`);
         }
         const works = await response.json();
         return works;
     } catch (error) {
-        console.error("Error fetching works:", error);
+        console.error("Erreur en essayant de récupérer les données:", error);
         throw error;
     }
 }
 
-
 /**
- * Cette fonction affiche les projets
+ * Cette fonction affiche les projets filtrés sur la page d'accueil
  * @param {*} worksFiltered 
  */
 function showWorks(worksFiltered) {
