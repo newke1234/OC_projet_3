@@ -2,7 +2,7 @@
  * Pour récuperer les projets sur la base de données
  * @returns 
  */
-async function getWorks () {
+async function getWorks() {
     try {
         const response = await fetch("http://localhost:" + apiPort + "/api/works");
         if (!response.ok) {

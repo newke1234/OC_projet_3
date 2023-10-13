@@ -1,5 +1,6 @@
 // Récupération des projets du site depuis l"API
-let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+
+let works = await getWorks()
 
 // recupération des catégories
 let categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
@@ -29,7 +30,7 @@ showWorks(worksFiltered)
 const filterCategoryButton = document.querySelectorAll(".button-categorie")
 for (let i=0; i <filterCategoryButton.length; i++) {
     filterCategoryButton[i].addEventListener("click", async (event) => {
-        works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+        works = await getWorks()
         if (parseInt(event.target.dataset.id) !== 0) {
             worksFiltered = works.filter(item => item.categoryId === parseInt(event.target.dataset.id)) // Methode filter()
             showWorks(worksFiltered)
