@@ -4,7 +4,7 @@
 */
 
 * {
-	box-sizing: border-box;
+	box-sizing: border-box; /* important */
 }
 
 html, body, div, span, applet, object, iframe,
@@ -142,7 +142,6 @@ a:hover {
 
 .filtres li {
 	padding: 0;
-
 }
 
 .filtres ul {
@@ -302,6 +301,7 @@ a:hover {
 	color: #B1663C;
 }
 
+/* Bouton Valider pour ajouter une nouvelle photo */
 input[type="submit"] {
 	font-family: 'Syne';
 	font-weight: 700;
@@ -344,7 +344,6 @@ footer nav ul {
 	width: 100%;
 	height: 100vh;
 	background-color: rgba(0,0,0,.5);
-
 }
 
 .modal-logout-wrapper, .modal-validateDelete-wrapper, .modal-logout-forced-wrapper {
@@ -358,7 +357,6 @@ footer nav ul {
 	background-color: #FFFEF8;
 	border-radius: 15px;
 }
-
 
 .modal-main-wrapper {
 	
@@ -422,7 +420,7 @@ footer nav ul {
 	width: 100%;
 }
 
-#cross {/* croix de fermeture */
+#cross { /* croix de fermeture */
 	position: relative;
 	left: 16%;
 }
@@ -437,7 +435,7 @@ footer nav ul {
 	font-size: larger;
 }
 
-.fa-trash-can {
+.fa-trash-can { /* poubelles */
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -446,7 +444,7 @@ footer nav ul {
 	height: 15px;
 }
 
-.trash {
+.trash { /* divs poubelles */
 	display:flex;
 	justify-content: center;
 	position: relative;
@@ -481,7 +479,6 @@ footer nav ul {
 	flex-direction: column;
 	align-items: center;
 	margin: auto;
-	/* margin-top: 50px; */
 }
 
 #modifyGallery h2 {
@@ -565,8 +562,8 @@ option {
 	font-size: 80px;
 }
 
-input::file-selector-button {
-	display: none;
+input::file-selector-button { /* bouton standard selecteur de fichier */
+	display: none; 
 }
 
 #titleNewPhoto {
@@ -602,4 +599,3 @@ input[type="file"] {
 .hidden {
 	display: none !important;
 }
-
