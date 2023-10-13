@@ -103,35 +103,30 @@ imagePreviewElementDiv.addEventListener('click', () => {
 });
 
 
-
-
 // Envoi de "Ajout de projet" par bouton valider
-    // On vérifie que tous les champs sont actifs pour activer le bouton submit
+// On vérifie que tous les champs sont actifs pour activer le bouton submit
 document.querySelector("select").addEventListener("change", () => formAddProjetCheck())
 document.getElementById("title").addEventListener("input", () => formAddProjetCheck())
 photoUploadElement.addEventListener("change", () => formAddProjetCheck())
-// Sélectionnez l'élément que vous souhaitez surveiller
-const elementToObserve = document.querySelector(".modal-message");
-
 {
-    // Créez une fonction de rappel qui sera appelée lorsque des mutations sont détectées
+    // élément a surveiller
+    const elementToObserve = document.querySelector(".modal-message");
+
+    // Fonction de rappel appelée lorsque des mutations sont détectées
     const mutationCallback = function (mutationsList, observer) {
     // Parcourez la liste des mutations
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList' || mutation.type === 'characterData') {
-        // Code à exécuter lorsque des mutations sont détectées
+        // Code exécuté lorsque des mutations sont détectées
         formAddProjetCheck()
         }
     }
     };
-
     // Créez un observateur de mutation avec la fonction de rappel
     const observer = new MutationObserver(mutationCallback);
-
-    // Configurez l'observateur pour surveiller les modifications du contenu de l'élément
+    // Configuration de l'observateur pour surveiller les modifications du contenu de l'élément
     const config = { childList: true, characterData: true, subtree: true };
     observer.observe(elementToObserve, config);
-    document.querySelector(".modal-message").addEventListener("input", () => console.log(okdok))
 }
 
 // Listener Fleche 

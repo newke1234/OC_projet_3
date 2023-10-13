@@ -163,6 +163,10 @@ a:hover {
 	color:#1D6154;
 }
 
+#modal-logout button, #modal-validateDelete button, #modal-logout-forced button {
+	margin: 10px;
+}
+
 .addPhotoValidate:disabled {
 	background-color: lightgray ;
 }
