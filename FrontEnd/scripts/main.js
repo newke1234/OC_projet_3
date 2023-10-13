@@ -49,12 +49,6 @@ document.querySelectorAll('.js-modal').forEach(a => {
     })  
 })
 
-function resetFileInput(inputElement) {
-    const cloneInput = inputElement.cloneNode(true);
-    inputElement.parentNode.replaceChild(cloneInput, inputElement);
-    return cloneInput;
-  }
-
 // Listener "Ajouter Photo"
 document.querySelector('.addPhotoButton').addEventListener('click', async () => {
     photoGalleryElement.classList.add("hidden")
@@ -76,7 +70,7 @@ document.querySelector('.addPhotoButton').addEventListener('click', async () => 
     // Creation du menu déroulant pour les catégories disponibles
     const selectTag = document.querySelector('select')
     selectTag.innerHTML = "<option value='' default></option>"
-    document.getElementById("titleNewPhoto").value = ""
+    document.getElementById("title").value = ""
     categories = await fetch("http://localhost:" + apiPort + "/api/categories").then(categories => categories.json())
     categoriesSet = new Set(categories) // Set pour éviter les doublons
     categoriesSet.forEach(item => { 
@@ -114,7 +108,7 @@ imagePreviewElementDiv.addEventListener('click', () => {
 // Envoi de "Ajout de projet" par bouton valider
     // On vérifie que tous les champs sont actifs pour activer le bouton submit
 document.querySelector("select").addEventListener("change", () => formAddProjetCheck())
-document.getElementById("titleNewPhoto").addEventListener("input", () => formAddProjetCheck())
+document.getElementById("title").addEventListener("input", () => formAddProjetCheck())
 photoUploadElement.addEventListener("change", () => formAddProjetCheck())
 // Sélectionnez l'élément que vous souhaitez surveiller
 const elementToObserve = document.querySelector(".modal-message");
@@ -151,11 +145,9 @@ document.getElementById('arrow').addEventListener('click', () => {
 
 })
 
-
-
 // Listener bouton "Valider" pour method POST des infos du nouveau projet
 const formulaire = document.getElementById("modifyGallery")
 formulaire.addEventListener('submit', function (event) {
     event.preventDefault(); 
-    postNewWork(formulaire)
+    postNewWork()
 });

@@ -155,61 +155,6 @@ async function modalWorkDelete(workid, modal) {
     })
 }
 
-
-/**
- * Fonction pour poster un nouveau projet dans la db
- * @param {*} formulaire 
- * @returns 
- */
-async function postNewWork (formulaire) {
-
-    // On récupère les données du formulaire dans un objet "FormData"
-    let formDataWork = new FormData(formulaire);
-    const imageData = formDataWork.get('file-upload')
-    const titleData = formDataWork.get('title')
-    const categoryData = formDataWork.get("category")
-    formDataWork = null
-    formDataWork = new FormData()
-    formDataWork.append('image', imageData);
-    formDataWork.append('title', titleData);
-    formDataWork.append('category', categoryData);
-    // Nouvel objet FormData pour stocker uniquement les données demandées pour la DB
-    // const newWorkData = new FormData();
-    // newWorkData.append('image', imageData);
-    // newWorkData.append('title', titleData);
-    // newWorkData.append('category', categoryData);
-
-    try {
-        let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
-            method: "POST",
-            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")) },
-            body:  formDataWork
-        }) 
-        if (answer.ok) { // réponse positive du serveur, on revient sur la modale des projets.
-            closeModal(modalMain)
-            document.getElementById("arrow").click()
-            let addProjectOk = document.querySelector(".modal-message")
-            addProjectOk.style.color = "#1D6154"
-            addProjectOk.innerText = "Photo ajoutée avec succès" // Message de succès
-            addProjectOk.classList.add()
-            return
-        }
-        if (answer.status === 401) { // Si autorisation refusée (token expiré)
-            closeModal(modal)
-            openModal(modalLogoutForced)
-            document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
-          }
-        if (answer.status === 404 || answer.status === 500) { // Message si erreur coté serveur 
-            let addProjectError = document.querySelector(".modal-message")
-            addProjectError.style.color = "red"
-            addProjectError.innerText = `Opération impossible - erreur ${answer.status}`
-            throw new Error(`Opération impossible - erreur ${answer.status}`)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 /**
  * Fonction pour charger une image et la vérifier
  * @param {*} event 
@@ -268,13 +213,55 @@ function addPhotoFunction (event, insertFileElement) {
 }
 
 /**
+ * Fonction pour poster un nouveau projet dans la db
+ * @returns 
+ */
+async function postNewWork () {
+    // On récupère les données du formulaire dans un objet "FormData"
+    let formDataWork = new FormData()
+    formDataWork.append('image', document.getElementById("file-upload").files[0]);
+    formDataWork.append('title', document.getElementById("title").value);
+    formDataWork.append('category', document.querySelector("select").value);
+
+    try {
+        let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
+            method: "POST",
+            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")) },
+            body:  formDataWork
+        }) 
+        if (answer.ok) { // réponse positive du serveur, on revient sur la modale des projets.
+            closeModal(modalMain)
+            document.getElementById("arrow").click()
+            let addProjectOk = document.querySelector(".modal-message")
+            addProjectOk.style.color = "#1D6154"
+            addProjectOk.innerText = "Photo ajoutée avec succès" // Message de succès
+            addProjectOk.classList.add()
+            return
+        }
+        if (answer.status === 401) { // Si autorisation refusée (token expiré)
+            closeModal(modal)
+            openModal(modalLogoutForced)
+            document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
+          }
+        if (answer.status === 404 || answer.status === 500 || answer.status === 400) { // Message si erreur coté serveur 
+            let addProjectError = document.querySelector(".modal-message")
+            addProjectError.style.color = "red"
+            addProjectError.innerText = `Opération impossible - erreur ${answer.status}`
+            throw new Error(`Opération impossible - erreur ${answer.status}`)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+/**
  * Fonction pour activer le bouton de validation d'un nouveau projet
  * Vérifie que tous les champs sont remplis
  */
 function formAddProjetCheck () {
     document.querySelector(".addPhotoValidate").disabled = true
     if (document.getElementById("file-upload").value) {
-        if (document.getElementById("titleNewPhoto").value) {
+        if (document.getElementById("title").value) {
             if (document.querySelector("select").value) {
                 if(document.querySelector(".modal-message").innerText === "") {
                     document.querySelector(".addPhotoValidate").disabled = false
