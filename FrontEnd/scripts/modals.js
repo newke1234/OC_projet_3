@@ -9,7 +9,7 @@ function openModal (modal) {
     modal.classList.remove("hidden")
     modal.setAttribute("aria-hidden", false)
     modal.setAttribute("aria-modal", true)
-    document.querySelector('body').classList.add('no-scroll') // classList.add('no-scroll')
+    document.querySelector('body').classList.add('no-scroll') 
     switch (modal.id) {
         case 'modal-logout':
             logout()
@@ -28,11 +28,6 @@ function openModal (modal) {
     if (modal.querySelector(".js-modal-close")) {
         modal.querySelector(".js-modal-close")
             .addEventListener("click", () => closeModal(modal));
-        // modal.querySelector(".js-modal-index")
-        //     .addEventListener("click", () => {
-        //         closeModal(modal);
-        //         window.location.href = "./index.html";
-        //     })
         modal.querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
     } 
@@ -53,14 +48,13 @@ async function closeModal (modal) {
     modal.setAttribute("aria-hidden", true)
     modal.setAttribute("aria-modal", false)
     modal.removeEventListener("click", () => openModal(modal))
-    let works = await fetch("http://localhost:" + apiPort + "/api/works").then(works => works.json())
+    getWorks ()
     showWorks(works)
-    modal = null
-   
+    modal = null 
 }
 
 /**
- * Fonction : Empeche la propagation du clic de souris aux éléments enfants de la boîte modale
+ * Fonction : Empeche la propagation du clic de souris aux éléments enfants de la boîte modale (l'extérieur de la boîte)
  * @param {*} event 
  */
 const stopPropagation = function (event) {
@@ -109,55 +103,9 @@ async function showGalleryFunction() {
 }
 
 /**
- * Fonction pour poster un nouveau projet dans la db
- * @param {*} formulaire 
- * @returns 
+ * Fonction de gestionnaire pour le clic sur l'icône de poubelle
+ * @param {*} event 
  */
-async function postNewWork (formulaire) {
-    const formDataWork = new FormData(formulaire);
-
-    const imageData = formDataWork.get('file-upload')
-    const titleData = formDataWork.get('title')
-    const categoryData = formDataWork.get("category")
-
-    // Nouvel objet FormData pour stocker uniquement les données demandées pour la DB
-    const newWorkData = new FormData();
-    newWorkData.append('image', imageData);
-    newWorkData.append('title', titleData);
-    newWorkData.append('category', categoryData);
-
-    try {
-        let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
-            method: "POST",
-            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")) },
-            body:  newWorkData
-        }) 
-        if (answer.ok) {
-            closeModal(modalMain)
-            document.getElementById("arrow").click()
-            let addProjectOk = document.querySelector(".modal-message")
-            addProjectOk.style.color = "#1D6154"
-            addProjectOk.innerText = "Photo ajoutée avec succès"
-            addProjectOk.classList.add()
-            return
-        }
-        if (answer.status === 401) { // Si autorisation refusée (token expiré)
-            closeModal(modal)
-            openModal(modalLogoutForced)
-            document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
-          }
-        if (answer.status === 404 || answer.status === 500) { // si erreur coté serveur 
-            let addProjectError = document.querySelector(".modal-message")
-            addProjectError.style.color = "red"
-            addProjectError.innerText = `Opération impossible - erreur ${answer.status}`
-            throw new Error(`Opération impossible - erreur ${answer.status}`)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-// Fonction de gestionnaire pour le clic sur l'icône de poubelle
 function handleTrashIconClick(event) {
     modal = modalValidateDelete;
     openModal(modal);
@@ -166,7 +114,7 @@ function handleTrashIconClick(event) {
 }
 
 /**
- * Fonction pour effacer un projet
+ * Fonction pour effacer un projet : Affiche la modale pour demander confirmation de la suppression
  * @param {workid} workid Id du projet a effacer
  * @param {*} modal contenu de la modale a afficher
  * @return
@@ -191,7 +139,7 @@ async function modalWorkDelete(workid, modal) {
                 openModal(modalLogoutForced)
                 document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
               }
-            if (answer.status === 404 || answer.status === 500) { // si erreur coté API
+            if (answer.status === 404 || answer.status === 500) { // si erreur coté serveur
                 let deleteError = document.querySelector(".modal-message")
                 deleteError.style.color = "red"
                 deleteError.innerText = `Opération impossible - erreur ${answer.status}`
@@ -201,6 +149,54 @@ async function modalWorkDelete(workid, modal) {
             console.log(error)
         }
     })
+}
+
+
+/**
+ * Fonction pour poster un nouveau projet dans la db
+ * @param {*} formulaire 
+ * @returns 
+ */
+async function postNewWork (formulaire) {
+
+    // On récupère les données du formulaire dans un objet "FormData"
+    const formDataWork = new FormData(formulaire);
+
+    // Nouvel objet FormData pour stocker uniquement les données demandées pour la base de donnée
+    const newWorkData = new FormData();
+    newWorkData.append('image', formDataWork.get('file-upload'));
+    newWorkData.append('title', formDataWork.get('title'));
+    newWorkData.append('category', formDataWork.get("category"));
+
+    try {
+        let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
+            method: "POST",
+            headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")) },
+            body:  newWorkData
+        }) 
+        if (answer.ok) { // réponse positive du serveur, on revient sur la modale des projets.
+            closeModal(modalMain)
+            document.getElementById("arrow").click()
+            let addProjectOk = document.querySelector(".modal-message")
+            addProjectOk.style.color = "#1D6154"
+            addProjectOk.innerText = "Photo ajoutée avec succès" // Message de succès
+            addProjectOk.classList.add()
+            return
+        }
+        if (answer.status === 401) { // Si autorisation refusée (token expiré)
+            closeModal(modal)
+            openModal(modalLogoutForced)
+            document.getElementById("ok-logout").addEventListener("click", () => window.location.href = "./login.html") 
+          }
+        if (answer.status === 404 || answer.status === 500) { // Message si erreur coté serveur 
+            let addProjectError = document.querySelector(".modal-message")
+            addProjectError.style.color = "red"
+            addProjectError.innerText = `Opération impossible - erreur ${answer.status}`
+            throw new Error(`Opération impossible - erreur ${answer.status}`)
+        }
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 /**
@@ -217,7 +213,6 @@ function addPhotoFunction (event, insertFileElement) {
 
     if (selectedFile) {
         // Accéder aux propriétés du fichier :
-        const fileName = selectedFile.name; // Nom du fichier
         const fileSize = selectedFile.size; // Taille du fichier en octets
         const fileType = selectedFile.type; // Type MIME du fichier
             
@@ -234,7 +229,7 @@ function addPhotoFunction (event, insertFileElement) {
                 insertFileElement.classList.remove("hidden")
                 return
             } else {
-                errorMessagePhoto.innerText = " "
+                errorMessagePhoto.innerText = ""
                 const fileReader = new FileReader();
                 fileReader.onload = (e) => {
                     imagePreviewElement.innerHTML = ""
@@ -242,7 +237,7 @@ function addPhotoFunction (event, insertFileElement) {
                     imagePreviewElementIMG = document.createElement('img')
                     imagePreviewElementIMG.setAttribute("src", "")
                     imagePreviewElement.appendChild(imagePreviewElementIMG)
-                    imagePreviewElementIMG.src = e.target.result; // Affectez la source de l'image à l'élément d'aperçu
+                    imagePreviewElementIMG.src = e.target.result; // Affectez la source de l'image à l'élément HTML d'aperçu
                     imagePreviewElement.classList.remove("hidden")
                     insertFileElement.classList.add("hidden")
                 }
@@ -251,7 +246,7 @@ function addPhotoFunction (event, insertFileElement) {
         } else {
             document.querySelector(".addPhotoValidate").disabled = true
             errorMessagePhoto.style.color = "red"
-            errorMessagePhoto.innerText = "Vous devez selectionner un fichier avec une extension .jpg ou .png"
+            errorMessagePhoto.innerText = "Vous devez selectionner un fichier avec une extension .jpg, .jpeg ou .png"
             imagePreviewElement.innerHTML = ""
             imagePreviewElementIMG = ""
             imagePreviewElement.classList.add("hidden")
@@ -266,21 +261,12 @@ function addPhotoFunction (event, insertFileElement) {
  * Vérifie que tous les champs sont remplis
  */
 function formAddProjetCheck () {
-    let imageOK = false
-    let titleOK = false
-    let categoryOK = false
     document.querySelector(".addPhotoValidate").disabled = true
     if (document.getElementById("file-upload").value) {
-        imageOK = true
         if (document.getElementById("titleNewPhoto").value) {
-            titleOK = true
             if (document.querySelector("select").value) {
-                categoryOK = true
                 if(document.querySelector(".modal-message").innerText === "") {
-                    messageOK = true
-                    if (imageOK && titleOK && categoryOK && messageOK) {
                     document.querySelector(".addPhotoValidate").disabled = false
-                    }
                 }
             }
         } 
