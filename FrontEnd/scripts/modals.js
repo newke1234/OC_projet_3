@@ -94,7 +94,11 @@ async function showGalleryFunction() {
         trashIcon.classList.add("fa-regular")
         trashIcon.classList.add("fa-trash-can")
         trashIcon.innerHTML = ""
-        trashIcon.addEventListener("click", (event) => handleTrashIconClick(event));
+        trashIcon.addEventListener("click", (event) => {
+            event.preventDefault()
+            handleTrashIconClick(event)
+            
+        }); 
         trashIconLink.appendChild(trashIcon)
         figureTag.appendChild(imageElement) // Affichage les nouveaux elements
         figureTag.appendChild(trashIconLink) // Affichage de l'icon trash
@@ -160,19 +164,26 @@ async function modalWorkDelete(workid, modal) {
 async function postNewWork (formulaire) {
 
     // On récupère les données du formulaire dans un objet "FormData"
-    const formDataWork = new FormData(formulaire);
-
-    // Nouvel objet FormData pour stocker uniquement les données demandées pour la base de donnée
-    const newWorkData = new FormData();
-    newWorkData.append('image', formDataWork.get('file-upload'));
-    newWorkData.append('title', formDataWork.get('title'));
-    newWorkData.append('category', formDataWork.get("category"));
+    let formDataWork = new FormData(formulaire);
+    const imageData = formDataWork.get('file-upload')
+    const titleData = formDataWork.get('title')
+    const categoryData = formDataWork.get("category")
+    formDataWork = null
+    formDataWork = new FormData()
+    formDataWork.append('image', imageData);
+    formDataWork.append('title', titleData);
+    formDataWork.append('category', categoryData);
+    // Nouvel objet FormData pour stocker uniquement les données demandées pour la DB
+    // const newWorkData = new FormData();
+    // newWorkData.append('image', imageData);
+    // newWorkData.append('title', titleData);
+    // newWorkData.append('category', categoryData);
 
     try {
         let answer = await fetch("http://localhost:" + apiPort + "/api/works/", { 
             method: "POST",
             headers: { "Authorization": "Bearer " + JSON.parse(window.sessionStorage.getItem("token")) },
-            body:  newWorkData
+            body:  formDataWork
         }) 
         if (answer.ok) { // réponse positive du serveur, on revient sur la modale des projets.
             closeModal(modalMain)
