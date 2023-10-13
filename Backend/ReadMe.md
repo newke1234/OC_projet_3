@@ -20,6 +20,4 @@ Lien pour voir la
 
 Pour lire la documentation, utiliser Chrome ou Firefox
 
-### IMPORTANT! : Le port de l'api peut-être reglé dans le fichier config.js
-
-#### LANCEMENT du site en FRONT-END : http://localhost:5678
+### IMPORTANT! : Le port de l'api peut-être changé dans le fichier config.js
