@@ -102,7 +102,7 @@ imagePreviewElementDiv.addEventListener('click', () => {
     });
 });
 
-// Envoi de "Ajout de projet" par bouton valider
+// Envoi du formulaire "Ajout de projet" par bouton valider
 // On vérifie que tous les champs sont actifs pour activer le bouton submit
 document.querySelector("select").addEventListener("change", () => formAddProjetCheck());
 document.getElementById("title").addEventListener("input", () => formAddProjetCheck());
