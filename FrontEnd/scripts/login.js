@@ -3,8 +3,8 @@ window.sessionStorage.removeItem("token");
 
 // on ecoute le bouton 'se connecter'
 const loginSubmit = document.getElementById("loginSubmit");
-loginSubmit.addEventListener('click', async () => {
-
+loginSubmit.addEventListener('click', async (event) => {
+    event.preventDefault()
     // on recupere les données du formulaire
     const inputEmail = document.getElementById("email").value;
     const inputPassword = document.getElementById("password").value;
