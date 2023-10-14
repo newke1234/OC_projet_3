@@ -95,6 +95,14 @@ h1{
 	color: #B1663C
 }
 
+h1 a:visited, h1 a:active{
+	color:#B1663C;
+}
+
+h1 a:hover {
+	color:#1D6154;
+}
+
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
