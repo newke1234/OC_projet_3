@@ -78,6 +78,7 @@ async function showGalleryFunction() {
     // On récupère les projets via l'Api
     works = null;
     works = await getWorks();
+    showWorks(works); // on met à jour les projets sur la page d'accueil
     const showGallery = document.querySelector(".showGallery");
     showGallery.innerHTML = "";
 
@@ -85,7 +86,8 @@ async function showGalleryFunction() {
         // Création des balises pour chaque projet
         const figureTag = document.createElement("figure");
         const imageElement = document.createElement("img");
-        imageElement.src = works[i].imageUrl;
+        // ajout de l"url de l"image / L'url doit être adaptée au port utilisé, car la port 5678 est utilisé par défaut dans l'url de la base de donnée.
+        imageElement.src = works[i].imageUrl.replace("localhost:5678",`localhost:${apiPort}`); ;
         imageElement.alt = works[i].title;
         const trashIconLink = document.createElement("p");
         trashIconLink.classList.add("trash");
@@ -135,6 +137,7 @@ async function modalWorkDelete(workid, modal) {
                 let deleteOk = document.querySelector(".modal-message");
                 deleteOk.style.color = "#1D6154";
                 deleteOk.innerText = "Projet supprimé avec succès";
+                
                 showGalleryFunction();
             }
             if (answer.status === 401) { // Si autorisation refusée (token expiré)

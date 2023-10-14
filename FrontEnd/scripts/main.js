@@ -10,7 +10,7 @@ let modal = null;
 // verifier si un utilisateur est loggué
 let tokenSession = JSON.parse(window.sessionStorage.getItem("token"));
 
-if (tokenSession) {
+if (tokenSession) { // si oui, on change le bouton login en logout
     const menuLogout = document.querySelector(".menu-logout");
     const menuLogin = document.querySelector(".menu-login");
     const modeEdition = document.querySelector(".modeEdition");
@@ -62,6 +62,7 @@ document.querySelector('.addPhotoButton').addEventListener('click', async () => 
     //on réinit le message dans "modal-message"
     document.querySelector(".modal-message").innerText = "";
 
+    // On ice le conteneur de preview de l'image
     insertFileElement.classList.remove("hidden");
     document.getElementById("image-preview").classList.add("hidden");
     document.getElementById("image-preview").innerText = "";

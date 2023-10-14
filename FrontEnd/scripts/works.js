@@ -4,13 +4,16 @@
  */
 async function getWorks() {
     try {
-        const response = await fetch("http://localhost:" + apiPort + "/api/works");
-        if (!response.ok) {
+        document.getElementById("errorGallery").innerHTML = ""
+        const answer = await fetch("http://localhost:" + apiPort + "/api/works");
+        if (!answer.ok) {
+            
             throw new Error(`Erreur HTTP Status: ${response.status}`);
         }
-        const works = await response.json();
+        const works = await answer.json();
         return works;
     } catch (error) {
+        document.getElementById("errorGallery").innerHTML = "<p>Erreur en essayant de récupérer les données : Accès au serveur impossible</p>";
         console.error("Erreur en essayant de récupérer les données:", error);
         throw error;
     }
@@ -30,7 +33,9 @@ function showWorks(worksFiltered) {
         // Reconstruction des balises
         const figureTag = document.createElement("figure");
         const imageElement = document.createElement("img");
-        imageElement.src = worksFiltered[i].imageUrl; // ajout de l"url de l"image
+        
+        // ajout de l"url de l"image / L'url doit être adaptée au port utilisé, car la port 5678 est utilisé par défaut dans l'url de la base de donnée.
+        imageElement.src = worksFiltered[i].imageUrl.replace("localhost:5678",`localhost:${apiPort}`);  
         imageElement.alt = worksFiltered[i].title; // ajout de la balise Alt
         const figcaptionTag = document.createElement("figcaption");
         figcaptionTag.innerText = worksFiltered[i].title;
