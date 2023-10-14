@@ -20,4 +20,7 @@ Lien pour voir la
 
 Pour lire la documentation, utiliser Chrome ou Firefox
 
-### IMPORTANT! : Le port de l'api peut-être changé dans le fichier config.js
+### IMPORTANT! : Le port d'appel au serveur peut-être ajusté dans le fichier config.js, si le port est différent de celui par défaut ("5678")
+
+NB : pour changer le port du serveur, via la ligne de commande : 'set PORT = "le port que vous avez choisi"'
+A lancer dans le dossier Backend uniquement ( comme l'api )
