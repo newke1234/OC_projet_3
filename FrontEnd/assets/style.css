@@ -35,6 +35,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	overflow-y: scroll; /* Force la barre de défilement verticale même lorsque la barre horizontale est absente */
 
 }
 ol, ul {
@@ -503,7 +504,6 @@ footer nav ul {
 
 #modifyGallery label {
 	text-align: left;
-	padding-left: -25px !important;
 	display: inline-block;
 	width: 100%;
 	font-size: smaller;
