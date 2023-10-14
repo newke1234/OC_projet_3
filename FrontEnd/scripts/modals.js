@@ -5,8 +5,6 @@
 function openModal(modal) {
     document.querySelector(".modal-message").innerText = "";
     modal.classList.remove("hidden");
-    modal.setAttribute("aria-hidden", false);
-    modal.setAttribute("aria-modal", true);
     document.querySelector('body').classList.add('no-scroll');
     switch (modal.id) {
         case 'modal-logout':
@@ -44,8 +42,6 @@ async function closeModal(modal) {
     document.querySelector(".fa-arrow-left").style.overflow = "auto";
     modal.classList.add("hidden");
     document.querySelector('body').classList.remove('no-scroll');
-    modal.setAttribute("aria-hidden", true);
-    modal.setAttribute("aria-modal", false);
     modal.removeEventListener("click", () => openModal(modal));
     getWorks();
     showWorks(works);
@@ -73,7 +69,6 @@ function logout() {
  */
 async function showGalleryFunction() {
     modalMain.classList.remove('hidden');
-    modalMain.setAttribute("aria-modal", "true");
     document.querySelector('body').classList.add('no-scroll');
     // On récupère les projets via l'Api
     works = null;
