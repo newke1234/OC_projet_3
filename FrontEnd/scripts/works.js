@@ -35,7 +35,7 @@ function showWorks(worksFiltered) {
         const imageElement = document.createElement("img");
         
         // ajout de l"url de l"image / L'url doit être adaptée au port utilisé, car la port 5678 est utilisé par défaut dans l'url de la base de donnée.
-        imageElement.src = worksFiltered[i].imageUrl.replace("localhost:5678",`localhost:${apiPort}`);  
+        imageElement.src = worksFiltered[i].imageUrl.replace(/localhost:[0-9]+/,`localhost:${apiPort}`);  
         imageElement.alt = worksFiltered[i].title; // ajout de la balise Alt
         const figcaptionTag = document.createElement("figcaption");
         figcaptionTag.innerText = worksFiltered[i].title;
@@ -46,7 +46,7 @@ function showWorks(worksFiltered) {
 }
 
 /**
- * 
+ * Cette fonction affiche les boutons de filtre sur la page d'accueil
  * @param {*} categories 
  */
 function showFilterButtons(categories) {

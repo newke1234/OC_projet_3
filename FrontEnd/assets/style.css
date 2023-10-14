@@ -245,6 +245,14 @@ a:hover {
 	width: 100%;
 }
 
+#errorGallery {
+	width: 100%;
+	display:flex;
+	justify-content: center;
+	text-align: center;
+	color : red;
+}
+
 .formulaire {
 	display: flex;
 	flex-direction: column;

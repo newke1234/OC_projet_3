@@ -43,7 +43,8 @@ loginSubmit.addEventListener('click', async () => {
         console.log(window.sessionStorage.getItem("token"));
         window.location.href = "./index.html";  // On retourne vers la page d'accueil
     } catch (error) {
-        console.clear();
+        // console.clear();
+        error = "Erreur : Accès au serveur impossible"
         errorMessage.innerText = error;        
     }
 });
