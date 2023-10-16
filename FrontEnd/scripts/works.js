@@ -8,14 +8,13 @@ async function getWorks() {
         const answer = await fetch("http://localhost:" + apiPort + "/api/works");
         if (!answer.ok) {
             
-            throw new Error(`Erreur HTTP Status: ${response.status}`);
+            throw new Error(`Erreur HTTP Status: ${answer.status}`);
         }
         const works = await answer.json();
         return works;
     } catch (error) {
-        document.getElementById("errorGallery").innerHTML = "<p>Erreur en essayant de récupérer les données : Accès au serveur impossible</p>";
+        document.getElementById("errorGallery").innerHTML = "<p>Accès au serveur impossible</p>";
         console.error("Erreur en essayant de récupérer les données:", error);
-        throw error;
     }
 }
 
