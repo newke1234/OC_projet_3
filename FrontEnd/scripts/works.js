@@ -20,6 +20,30 @@ async function getWorks() {
 }
 
 /**
+ * Cette fonction affiche les boutons de filtre sur la page d'accueil
+ * @param {*} categories 
+ */
+function showFilterButtons(categories) {
+    const filtresGallery = document.querySelector(".filtres ul");
+    const listeButton = document.createElement("li");
+    const buttonCatTous = document.createElement("button"); // Bouton catégorie "Tous"
+    buttonCatTous.dataset.id = "0";
+    buttonCatTous.innerText = "Tous";
+    buttonCatTous.classList.add("button-categorie");
+    listeButton.appendChild(buttonCatTous);
+    filtresGallery.appendChild(listeButton);
+    categories.forEach(item => { // Autres boutons catégories
+        const buttonCat = document.createElement("button");
+        buttonCat.classList.add("button-categorie");
+        buttonCat.dataset.id = item.id;
+        buttonCat.innerText = item.name;
+        const listeButton = document.createElement("li");
+        listeButton.appendChild(buttonCat); 
+        filtresGallery.appendChild(listeButton);
+    });
+}
+
+/**
  * Cette fonction affiche les projets filtrés sur la page d'accueil
  * @param {*} worksFiltered 
  */
@@ -45,26 +69,3 @@ function showWorks(worksFiltered) {
     }
 }
 
-/**
- * Cette fonction affiche les boutons de filtre sur la page d'accueil
- * @param {*} categories 
- */
-function showFilterButtons(categories) {
-    const filtresGallery = document.querySelector(".filtres ul");
-    const listeButton = document.createElement("li");
-    const buttonCatTous = document.createElement("button"); // Bouton catégorie "Tous"
-    buttonCatTous.dataset.id = "0";
-    buttonCatTous.innerText = "Tous";
-    buttonCatTous.classList.add("button-categorie");
-    listeButton.appendChild(buttonCatTous);
-    filtresGallery.appendChild(listeButton);
-    categories.forEach(item => { // Autres boutons catégories
-        const buttonCat = document.createElement("button");
-        buttonCat.classList.add("button-categorie");
-        buttonCat.dataset.id = item.id;
-        buttonCat.innerText = item.name;
-        const listeButton = document.createElement("li");
-        listeButton.appendChild(buttonCat); 
-        filtresGallery.appendChild(listeButton);
-    });
-}
