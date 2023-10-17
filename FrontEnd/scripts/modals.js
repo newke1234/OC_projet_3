@@ -174,7 +174,7 @@ function addPhotoFunction(event, insertFileElement) {
             if (fileSize > 4000000) {
                 document.querySelector(".addPhotoValidate").disabled = true;
                 errorMessagePhoto.style.color = "red";
-                errorMessagePhoto.innerText = "La taille du fichier ne doit pas excéder 4 mo";
+                errorMessagePhoto.innerText = "La taille du fichier ne doit pas excéder 4 Mo";
                 selectedFile = "";
                 imagePreviewElement.innerHTML = "";
                 imagePreviewElementIMG = "";
