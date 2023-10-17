@@ -15,6 +15,8 @@ async function getWorks() {
     } catch (error) {
         document.getElementById("errorGallery").innerHTML = "<p>Accès au serveur impossible</p>";
         console.error("Erreur en essayant de récupérer les données:", error);
+        // si on a perdu l'accès au serveur, il faut se reconnecter
+        window.sessionStorage.removeItem("token");
     }
 }
 
