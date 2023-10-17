@@ -110,7 +110,7 @@ function handleTrashIconClick(event) {
     modal = modalValidateDelete;
     openModal(modal);
     let deleteId = event.target.parentNode.dataset.id;
-    modalWorkDelete(deleteId, modal);
+    workDelete(deleteId, modal);
 }
 
 /**
@@ -119,7 +119,7 @@ function handleTrashIconClick(event) {
  * @param {*} modal contenu de la modale a afficher
  * @return
  */
-async function modalWorkDelete(workid, modal) {
+async function workDelete(workid, modal) {
     const answerWorkDeleteButtons = document.getElementById("yes-button-delete");
     answerWorkDeleteButtons.addEventListener('click', async () => {
         try {
