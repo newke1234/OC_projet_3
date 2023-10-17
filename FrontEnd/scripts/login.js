@@ -40,7 +40,6 @@ loginSubmit.addEventListener('click', async (event) => {
         // on recupère le token et on le stock dans le sessionStorage
         let result = await answer.json();
         window.sessionStorage.setItem("token", JSON.stringify(result.token));
-        console.log(window.sessionStorage.getItem("token"));
         window.location.href = "./index.html";  // On retourne vers la page d'accueil
     } catch (error) {
         // console.clear();
