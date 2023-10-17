@@ -1,3 +1,5 @@
+
+
 // On vide le sessionStorage
 window.sessionStorage.removeItem("token");
 
@@ -37,12 +39,14 @@ loginSubmit.addEventListener('click', async (event) => {
         if (answer.status === 404 || answer.status === 401) {
            throw new Error('Email/Mot de passe non autorisés'); 
         }
-        // on recupère le token et on le stock dans le sessionStorage
+        if (answer.ok) {
+            // on recupère le token et on le stock dans le sessionStorage
         let result = await answer.json();
         window.sessionStorage.setItem("token", JSON.stringify(result.token));
         window.location.href = "./index.html";  // On retourne vers la page d'accueil
+        }
+        
     } catch (error) {
-        // console.clear();
         error = "Erreur : Accès au serveur impossible"
         errorMessage.innerText = error;        
     }
