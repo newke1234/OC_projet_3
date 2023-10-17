@@ -26,9 +26,9 @@ function showFilterButtons(categories) {
     const filtresGallery = document.querySelector(".filtres ul");
     const listeButton = document.createElement("li");
     const buttonCatTous = document.createElement("button"); // Bouton catégorie "Tous"
+    buttonCatTous.classList.add("button-categorie");
     buttonCatTous.dataset.id = "0";
     buttonCatTous.innerText = "Tous";
-    buttonCatTous.classList.add("button-categorie");
     listeButton.appendChild(buttonCatTous);
     filtresGallery.appendChild(listeButton);
     categories.forEach(item => { // Autres boutons catégories
